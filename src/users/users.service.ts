@@ -1,20 +1,49 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as bcrypt from 'bcrypt';
+import { AuthService } from 'src/common/auth/services/auth.service';
+import { LoginUserInput } from './dto/login-user.input';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
+    private readonly authService: AuthService,
   ) {}
 
-  create(createUserInput: CreateUserInput) {
+  async create(createUserInput: CreateUserInput) {
+    const saltOrRounds = 10;
+    const password = createUserInput.password;
+    createUserInput.password = await bcrypt.hash(password, saltOrRounds);
     const user = new this.userModel(createUserInput);
     return user.save();
+  }
+
+  async findOneByEmail(email: string) {
+    return this.userModel.findOne({
+      email,
+    });
+  }
+
+  async loginUser(loginUserInput: LoginUserInput) {
+    const user = await this.authService.validateUser(
+      loginUserInput.email,
+      loginUserInput.password,
+    );
+    if (!user) {
+      throw new BadRequestException('Email or password are invalid');
+    } else {
+      return this.authService.generateUserCredentials(user);
+    }
   }
 
   findAll() {
