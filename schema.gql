@@ -89,3 +89,7 @@ input UpdateUserInput {
   messages: [Message!]
   _id: String!
 }
+
+type Subscription {
+  newMessage: user!
+}

@@ -8,6 +8,7 @@ import { GraphQLModule } from '@nestjs/graphql';
       autoSchemaFile: './schema.gql',
       driver: ApolloDriver,
       playground: true,
+      installSubscriptionHandlers: true,
     }),
   ],
 })

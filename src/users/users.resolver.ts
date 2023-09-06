@@ -1,10 +1,13 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/common/auth/guards/jwt-auth.guard';
 import { CreateUserInput, LoggedUserOutput, LoginUserInput, UpdateUserInput } from './dto';
 import { OnlySameUserByIdAllowed } from 'src/common/interceptors/users.interceptor';
+import { PubSub } from 'graphql-subscriptions';
+
+const pubSub = new PubSub();
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -23,8 +26,12 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.usersService.create(createUserInput);
+  async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    const user = await this.usersService.create(createUserInput);
+    pubSub.publish('newMessage', {
+      newMessage: user
+    })
+    return user
   }
 
   @Mutation(() => LoggedUserOutput)
@@ -42,5 +49,10 @@ export class UsersResolver {
   @Mutation(() => User)
   removeUser(@Args('_id', { type: () => String }) id: string) {
     return this.usersService.remove(id);
+  }
+
+  @Subscription(() => User)
+  newMessage() {
+    return pubSub.asyncIterator('newMessage')
   }
 }
