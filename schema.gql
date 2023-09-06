@@ -2,7 +2,23 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type message {
+  _id: String!
+
+  """Message of a user """
+  message: String!
+
+  """Sender email"""
+  senderMail: String!
+
+  """Receiver email"""
+  receiverMail: String!
+
+  """Time to send the message"""
+  created_at: Int!
+}
+
+type user {
   _id: String!
 
   """Username """
@@ -10,6 +26,7 @@ type User {
 
   """User email """
   email: String!
+  messages: [message!]!
 }
 
 type LoggedUserOutput {
@@ -18,15 +35,15 @@ type LoggedUserOutput {
 }
 
 type Query {
-  users: [User!]!
-  user(_id: String!): User!
+  users: [user!]!
+  user(_id: String!): user!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
+  createUser(createUserInput: CreateUserInput!): user!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(_id: String!): User!
+  updateUser(updateUserInput: UpdateUserInput!): user!
+  removeUser(_id: String!): user!
 }
 
 input CreateUserInput {
@@ -38,6 +55,18 @@ input CreateUserInput {
 
   """Password of the user"""
   password: String!
+  messages: [Message!]!
+}
+
+input Message {
+  """Message of a user """
+  message: String!
+
+  """Sender email"""
+  senderMail: String!
+
+  """Receiver email"""
+  receiverMail: String!
 }
 
 input LoginUserInput {
@@ -57,5 +86,6 @@ input UpdateUserInput {
 
   """Password of the user"""
   password: String
+  messages: [Message!]
   _id: String!
 }

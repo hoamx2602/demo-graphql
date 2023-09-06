@@ -3,14 +3,13 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from 'src/common/auth/services/auth.service';
-import { LoginUserInput } from './dto/login-user.input';
+import { CreateUserInput, LoginUserInput, UpdateUserInput } from './dto';
+import { Message } from './entities/message.entity';
 
 @Injectable()
 export class UsersService {
@@ -18,13 +17,22 @@ export class UsersService {
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
     private readonly authService: AuthService,
+    @InjectModel(Message.name)
+    private readonly messageModel: Model<Message>
   ) {}
 
   async create(createUserInput: CreateUserInput) {
     const saltOrRounds = 10;
     const password = createUserInput.password;
     createUserInput.password = await bcrypt.hash(password, saltOrRounds);
-    const user = new this.userModel(createUserInput);
+
+    let messages = [];
+    createUserInput.messages.forEach((address) => {
+      messages.push((new this.messageModel(address).save()));
+    });
+    messages = await Promise.all(messages);
+
+    const user = new this.userModel({ ...createUserInput, messages });
     return user.save();
   }
 
