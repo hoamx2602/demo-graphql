@@ -42,8 +42,10 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): user!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
+  createMessage(createMessageInput: CreateMessageInput!): message!
   updateUser(updateUserInput: UpdateUserInput!): user!
   removeUser(_id: String!): user!
+  userTyping(userTypingInput: UserTypingInput!): Boolean!
 }
 
 input CreateUserInput {
@@ -77,6 +79,14 @@ input LoginUserInput {
   password: String!
 }
 
+input CreateMessageInput {
+  """Message of a user """
+  message: String!
+
+  """Receiver email"""
+  receiverMail: String!
+}
+
 input UpdateUserInput {
   """Username"""
   name: String
@@ -90,6 +100,14 @@ input UpdateUserInput {
   _id: String!
 }
 
+input UserTypingInput {
+  """Email of the user"""
+  email: String!
+
+  """Receiver email"""
+  receiverMail: String!
+}
+
 type Subscription {
-  newMessage: user!
+  newMessage: message!
 }

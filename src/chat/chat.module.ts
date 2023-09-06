@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersResolver } from './users.resolver';
+import { ChatService } from './chat.service';
+import { ChatResolver } from './chat.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './entities/user.entity';
 import { CommonModule } from 'src/common/common.module';
@@ -21,7 +21,7 @@ import { UsersMessagesResolver } from './users-messages.resolver';
       },
     ]),
   ],
-  providers: [UsersResolver, UsersService, UsersMessagesResolver],
-  exports: [UsersService],
+  providers: [ChatResolver, ChatService, UsersMessagesResolver],
+  exports: [ChatService],
 })
-export class UsersModule {}
+export class ChatModule {}

@@ -10,9 +10,10 @@ import * as bcrypt from 'bcrypt';
 import { AuthService } from 'src/common/auth/services/auth.service';
 import { CreateUserInput, LoginUserInput, UpdateUserInput } from './dto';
 import { Message } from './entities/message.entity';
+import { CreateMessageInput } from './dto/create-message.input';
 
 @Injectable()
-export class UsersService {
+export class ChatService {
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
@@ -34,6 +35,16 @@ export class UsersService {
 
     const user = new this.userModel({ ...createUserInput, messages });
     return user.save();
+  }
+
+  async createMessage(user: User, createMessageInput: CreateMessageInput) {
+    const newMessage = new this.messageModel({
+      ...createMessageInput,
+      senderMail: user.email,
+    })
+
+    await newMessage.save();
+    return newMessage;
   }
 
   async findOneByEmail(email: string) {
