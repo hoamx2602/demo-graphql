@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Room } from './room.entity';
 @Schema()
 @ObjectType('message')
 export class Message {
@@ -10,6 +11,10 @@ export class Message {
   @Prop()
   @Field(() => String, { description: 'Message of a user ' })
   message: string;
+
+  @Prop({ type: MongooseSchema.Types.ObjectId})
+  @Field(() => Room)
+  room: Room;
 
   @Prop()
   @Field(() => String, { description: 'Sender email' })

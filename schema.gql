@@ -2,11 +2,25 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type room {
+  _id: String!
+
+  """Room name """
+  name: String!
+
+  """Time when create a new room"""
+  created_at: Int!
+
+  """Room members"""
+  members: [user!]!
+}
+
 type message {
   _id: String!
 
   """Message of a user """
   message: String!
+  room: room!
 
   """Sender email"""
   senderMail: String!
