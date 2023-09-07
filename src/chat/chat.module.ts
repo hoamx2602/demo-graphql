@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ChatService } from './chat.service';
-import { ChatResolver } from './chat.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './entities/user.entity';
 import { CommonModule } from 'src/common/common.module';
-import { Message, MessageSchema } from './entities/message.entity';
-import { UsersMessagesResolver } from './users-messages.resolver';
+import { ChatResolver, UsersMessagesResolver } from './resolvers';
+import { Message, MessageSchema, Room, RoomSchema, User, UserSchema } from './entities';
 
 @Module({
   imports: [
@@ -18,6 +16,10 @@ import { UsersMessagesResolver } from './users-messages.resolver';
       {
         name: Message.name,
         schema: MessageSchema,
+      },
+      {
+        name: Room.name,
+        schema: RoomSchema,
       },
     ]),
   ],

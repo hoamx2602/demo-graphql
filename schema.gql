@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type user {
+  _id: String!
+
+  """Username """
+  name: String!
+
+  """User email """
+  email: String!
+  messages: [message!]!
+}
+
 type room {
   _id: String!
 
@@ -32,17 +43,6 @@ type message {
   created_at: Int!
 }
 
-type user {
-  _id: String!
-
-  """Username """
-  name: String!
-
-  """User email """
-  email: String!
-  messages: [message!]!
-}
-
 type LoggedUserOutput {
   """Generated access_token of the user"""
   access_token: String!
@@ -60,6 +60,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): user!
   removeUser(_id: String!): user!
   userTyping(userTypingInput: UserTypingInput!): Boolean!
+  createChatRoom(name: String!): room!
 }
 
 input CreateUserInput {

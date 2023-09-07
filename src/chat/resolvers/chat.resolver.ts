@@ -1,13 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
-import { ChatService } from './chat.service';
-import { User } from './entities/user.entity';
+import { Resolver, Query, Mutation, Args, Subscription } from '@nestjs/graphql';
+import { ChatService } from '../chat.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/common/auth/guards/jwt-auth.guard';
-import { CreateUserInput, LoggedUserOutput, LoginUserInput, UpdateUserInput, UserTypingInput } from './dto';
+import { CreateUserInput, LoggedUserOutput, LoginUserInput, UpdateUserInput, UserTypingInput } from '../dto';
 import { PubSub } from 'graphql-subscriptions';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
-import { Message } from './entities/message.entity';
-import { CreateMessageInput } from './dto/create-message.input';
+import { CreateMessageInput } from '../dto/create-message.input';
+import { Message, Room, User } from '../entities';
 
 const pubSub = new PubSub();
 
@@ -40,13 +39,19 @@ export class ChatResolver {
   loginUser(@Args('loginUserInput') loginUserInput: LoginUserInput) {
     return this.chatService.loginUser(loginUserInput);
   }
-  
+
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Message)
-  async createMessage(@CurrentUser() user: User, @Args('createMessageInput') createMessageInput: CreateMessageInput) {
-    const newMessage = await this.chatService.createMessage(user, createMessageInput);
-    pubSub.publish("newMessage", {
-      newMessage
+  async createMessage(
+    @CurrentUser() user: User,
+    @Args('createMessageInput') createMessageInput: CreateMessageInput,
+  ) {
+    const newMessage = await this.chatService.createMessage(
+      user,
+      createMessageInput,
+    );
+    pubSub.publish('newMessage', {
+      newMessage,
     });
     return newMessage;
   }
@@ -71,11 +76,16 @@ export class ChatResolver {
     return true;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Room)
+  async createChatRoom(@CurrentUser() user: User, @Args('name') name: string) {
+    return await this.chatService.createChatRoom(user, name);
+  }
+
   @Subscription(() => Message, {
     filter: (payload, variables) =>
-    payload.receiverMail === variables.receiverMail,
+      payload.receiverMail === variables.receiverMail,
   })
-  
   newMessage() {
     return pubSub.asyncIterator('newMessage');
   }
