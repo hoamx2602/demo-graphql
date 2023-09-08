@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -90,22 +91,58 @@ export class ChatService {
   }
 
   async remove(id: string) {
-    return this.userModel.deleteOne({ _id: id });
+    const user = await this.userModel.findOneAndDelete({ _id: id })
+    if(!user) {
+      throw new NotFoundException(`User ${id} not found`)
+    }
+    return user;
   }
 
   // Room
   async createChatRoom(user: User, name: string): Promise<Room> {
+    const roomNameExist = await this.roomModel.findOne({
+      name
+    })
+
+    if (roomNameExist) {
+      throw new ConflictException("This room has existed!")
+    }
+
+    console.log({...user})
+
     const chatRoom = new this.roomModel({ name, members: [user._id] });
     await chatRoom.save();
     return chatRoom;
   }
 
-  async getChatRooms(): Promise<Room[]> {
-    return await this.roomModel.find().exec();
+  async getRoomsChat(): Promise<Room[]> {
+    
+    const rooms = await this.roomModel.find().exec();
+
+    const roomWithUserPromise = rooms.map(async (room) => {
+      return {
+        ...room.toObject(),
+        members: await this.userModel.find({
+          _id: {
+            $in: room.members,
+          },
+        }),
+      };
+    });
+    const roomWithUser = await Promise.all(roomWithUserPromise)
+    return roomWithUser;
   }
 
   async joinRoom(user: User, roomId: string): Promise<Room | null> {
-    return await this.roomModel
+    const room = await this.roomModel.findOne({
+      _id: roomId
+    })
+
+    if (!room) {
+      throw new NotFoundException(`Room ${roomId} not found`)
+    }
+
+    return this.roomModel
       .findByIdAndUpdate(
         roomId,
         { $addToSet: { members: user._id } },

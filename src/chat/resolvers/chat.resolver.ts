@@ -2,7 +2,13 @@ import { Resolver, Query, Mutation, Args, Subscription } from '@nestjs/graphql';
 import { ChatService } from '../chat.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/common/auth/guards/jwt-auth.guard';
-import { CreateUserInput, LoggedUserOutput, LoginUserInput, UpdateUserInput, UserTypingInput } from '../dto';
+import {
+  CreateUserInput,
+  LoggedUserOutput,
+  LoginUserInput,
+  UpdateUserInput,
+  UserTypingInput,
+} from '../dto';
 import { PubSub } from 'graphql-subscriptions';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { CreateMessageInput } from '../dto/create-message.input';
@@ -21,6 +27,11 @@ export class ChatResolver {
     return this.chatService.findAll();
   }
 
+  @Query(() => [Room], { name: 'rooms' })
+  getRoomsChat() {
+    return this.chatService.getRoomsChat();
+  }
+
   @Query(() => User, { name: 'user' })
   findOne(@Args('_id', { type: () => String }) id: string) {
     return this.chatService.findOne(id);
@@ -29,8 +40,8 @@ export class ChatResolver {
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     const user = await this.chatService.create(createUserInput);
-    pubSub.publish('newMessage', {
-      newMessage: user,
+    pubSub.publish('newUser', {
+      newUser: user,
     });
     return user;
   }
@@ -82,11 +93,32 @@ export class ChatResolver {
     return await this.chatService.createChatRoom(user, name);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Room)
+  async joinRoom(@CurrentUser() user: User, @Args('roomId') roomId: string) {
+    return await this.chatService.joinRoom(user, roomId);
+  }
+
   @Subscription(() => Message, {
-    filter: (payload, variables) =>
-      payload.receiverMail === variables.receiverMail,
+    filter: (payload, variables) => {
+      return payload.newMessage.receiverMail === variables.receiverMail;
+    },
   })
-  newMessage() {
+  newMessage(@Args('receiverMail') receiverMail: string) {
     return pubSub.asyncIterator('newMessage');
+  }
+
+  @Subscription(() => User)
+  newUser() {
+    return pubSub.asyncIterator('newUser');
+  }
+
+  @Subscription(() => User, {
+    filter: (payload, variables) => {
+      return payload.newMessage.receiverMail === variables.receiverMail;
+    },
+  })
+  currentUserTyping(@Args('receiverMail') receiverMail: string) {
+    return pubSub.asyncIterator('currentUserTyping');
   }
 }

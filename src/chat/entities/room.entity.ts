@@ -12,7 +12,7 @@ export class Room {
   @Field(() => String, { description: 'Room name ' })
   name: string;
 
-  @Prop({ default: Date.now })
+  @Prop({ default: Math.floor(Date.now() / 1000) })
   @Field(() => Int, { description: 'Time when create a new room' })
   created_at: number
 

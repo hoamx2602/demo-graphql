@@ -24,7 +24,7 @@ export class Message {
   @Field(() => String, { description: 'Receiver email' })
   receiverMail: string;
 
-  @Prop({ default: Date.now })
+  @Prop({ default: Math.floor(Date.now() / 1000) })
   @Field(() => Int, { description: 'Time to send the message' })
   created_at: number
 }

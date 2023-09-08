@@ -11,6 +11,9 @@ type user {
   """User email """
   email: String!
   messages: [message!]!
+
+  """Time when create a new user"""
+  created_at: Int!
 }
 
 type room {
@@ -50,6 +53,7 @@ type LoggedUserOutput {
 
 type Query {
   users: [user!]!
+  rooms: [room!]!
   user(_id: String!): user!
 }
 
@@ -61,6 +65,7 @@ type Mutation {
   removeUser(_id: String!): user!
   userTyping(userTypingInput: UserTypingInput!): Boolean!
   createChatRoom(name: String!): room!
+  joinRoom(roomId: String!): room!
 }
 
 input CreateUserInput {
@@ -124,5 +129,7 @@ input UserTypingInput {
 }
 
 type Subscription {
-  newMessage: message!
+  newMessage(receiverMail: String!): message!
+  newUser: user!
+  currentUserTyping(receiverMail: String!): user!
 }
