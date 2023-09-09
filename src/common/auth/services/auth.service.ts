@@ -25,7 +25,7 @@ export class AuthService {
   async generateUserCredentials(user: User) {
     const payload: Payload = {
       email: user.email,
-      name: user.name,
+      name: user.username,
       sub: user._id,
     };
 

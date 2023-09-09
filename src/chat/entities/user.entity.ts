@@ -10,7 +10,7 @@ export class User {
 
   @Prop()
   @Field(() => String, { description: 'Username ' })
-  name: string;
+  username: string;
 
   @Prop({ unique: true })
   @Field(() => String, { description: 'User email ' })

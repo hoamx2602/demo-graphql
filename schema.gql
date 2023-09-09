@@ -6,7 +6,7 @@ type user {
   _id: String!
 
   """Username """
-  name: String!
+  username: String!
 
   """User email """
   email: String!
@@ -70,7 +70,7 @@ type Mutation {
 
 input CreateUserInput {
   """Username"""
-  name: String!
+  username: String!
 
   """Email of the user"""
   email: String!
@@ -109,7 +109,7 @@ input CreateMessageInput {
 
 input UpdateUserInput {
   """Username"""
-  name: String
+  username: String
 
   """Email of the user"""
   email: String
