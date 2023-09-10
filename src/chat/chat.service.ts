@@ -29,13 +29,13 @@ export class ChatService {
     const password = createUserInput.password;
     createUserInput.password = await bcrypt.hash(password, saltOrRounds);
 
-    let messages = [];
-    createUserInput.messages.forEach((address) => {
-      messages.push(new this.messageModel(address).save());
-    });
-    messages = await Promise.all(messages);
+    // let messages = [];
+    // createUserInput.messages.forEach((address) => {
+    //   messages.push(new this.messageModel(address).save());
+    // });
+    // messages = await Promise.all(messages);
 
-    const user = new this.userModel({ ...createUserInput, messages });
+    const user = new this.userModel(createUserInput);
     return user.save();
   }
 

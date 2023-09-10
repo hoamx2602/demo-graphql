@@ -77,18 +77,6 @@ input CreateUserInput {
 
   """Password of the user"""
   password: String!
-  messages: [Message!]!
-}
-
-input Message {
-  """Message of a user """
-  message: String!
-
-  """Sender email"""
-  senderMail: String!
-
-  """Receiver email"""
-  receiverMail: String!
 }
 
 input LoginUserInput {
@@ -116,7 +104,6 @@ input UpdateUserInput {
 
   """Password of the user"""
   password: String
-  messages: [Message!]
   _id: String!
 }
 
