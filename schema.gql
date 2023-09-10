@@ -58,7 +58,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): user!
+  register(createUserInput: CreateUserInput!): user!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
   createMessage(createMessageInput: CreateMessageInput!): message!
   updateUser(updateUserInput: UpdateUserInput!): user!

@@ -38,8 +38,8 @@ export class ChatResolver {
   }
 
   @Mutation(() => User)
-  async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    const user = await this.chatService.create(createUserInput);
+  async register(@Args('createUserInput') createUserInput: CreateUserInput) {
+    const user = await this.chatService.register(createUserInput);
     pubSub.publish('newUser', {
       newUser: user,
     });

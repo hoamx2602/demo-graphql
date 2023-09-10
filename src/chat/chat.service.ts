@@ -24,18 +24,18 @@ export class ChatService {
     private readonly authService: AuthService,
   ) {}
 
-  async create(createUserInput: CreateUserInput) {
+  async register(createUserInput: CreateUserInput) {
     const saltOrRounds = 10;
     const password = createUserInput.password;
     createUserInput.password = await bcrypt.hash(password, saltOrRounds);
 
-    let messages = [];
-    createUserInput.messages.forEach((address) => {
-      messages.push(new this.messageModel(address).save());
-    });
-    messages = await Promise.all(messages);
+    // let messages = [];
+    // createUserInput.messages.forEach((address) => {
+    //   messages.push(new this.messageModel(address).save());
+    // });
+    // messages = await Promise.all(messages);
 
-    const user = new this.userModel({ ...createUserInput, messages });
+    const user = new this.userModel(createUserInput);
     return user.save();
   }
 
@@ -91,9 +91,9 @@ export class ChatService {
   }
 
   async remove(id: string) {
-    const user = await this.userModel.findOneAndDelete({ _id: id })
-    if(!user) {
-      throw new NotFoundException(`User ${id} not found`)
+    const user = await this.userModel.findOneAndDelete({ _id: id });
+    if (!user) {
+      throw new NotFoundException(`User ${id} not found`);
     }
     return user;
   }
@@ -101,14 +101,14 @@ export class ChatService {
   // Room
   async createChatRoom(user: User, name: string): Promise<Room> {
     const roomNameExist = await this.roomModel.findOne({
-      name
-    })
+      name,
+    });
 
     if (roomNameExist) {
-      throw new ConflictException("This room has existed!")
+      throw new ConflictException('This room has existed!');
     }
 
-    console.log({...user})
+    console.log({ ...user });
 
     const chatRoom = new this.roomModel({ name, members: [user._id] });
     await chatRoom.save();
@@ -116,7 +116,6 @@ export class ChatService {
   }
 
   async getRoomsChat(): Promise<Room[]> {
-    
     const rooms = await this.roomModel.find().exec();
 
     const roomWithUserPromise = rooms.map(async (room) => {
@@ -129,17 +128,17 @@ export class ChatService {
         }),
       };
     });
-    const roomWithUser = await Promise.all(roomWithUserPromise)
+    const roomWithUser = await Promise.all(roomWithUserPromise);
     return roomWithUser;
   }
 
   async joinRoom(user: User, roomId: string): Promise<Room | null> {
     const room = await this.roomModel.findOne({
-      _id: roomId
-    })
+      _id: roomId,
+    });
 
     if (!room) {
-      throw new NotFoundException(`Room ${roomId} not found`)
+      throw new NotFoundException(`Room ${roomId} not found`);
     }
 
     return this.roomModel
