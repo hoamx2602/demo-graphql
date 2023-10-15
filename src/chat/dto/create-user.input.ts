@@ -14,9 +14,6 @@ export class Message {
 
 @InputType()
 export class CreateUserInput {
-  @Field(() => String, { description: 'Username' })
-  username: string;
-
   @Field(() => String, { description: 'Email of the user' })
   email: string;
 

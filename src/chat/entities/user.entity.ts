@@ -8,7 +8,7 @@ export class User {
   @Field(() => String)
   _id: MongooseSchema.Types.ObjectId;
 
-  @Prop()
+  @Prop({ default: '' })
   @Field(() => String, { description: 'Username ' })
   username: string;
 
@@ -21,11 +21,11 @@ export class User {
 
   @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Message' }] })
   @Field(() => [Message], { description: 'User messages' })
-  messages: Message[]
+  messages: Message[];
 
   @Prop({ default: Math.floor(Date.now() / 1000) })
   @Field(() => Int, { description: 'Time when create a new user' })
-  created_at: number
+  created_at: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

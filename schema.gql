@@ -55,6 +55,7 @@ type Query {
   users: [user!]!
   rooms: [room!]!
   user(_id: String!): user!
+  me: user!
 }
 
 type Mutation {
@@ -69,9 +70,6 @@ type Mutation {
 }
 
 input CreateUserInput {
-  """Username"""
-  username: String!
-
   """Email of the user"""
   email: String!
 
@@ -96,9 +94,6 @@ input CreateMessageInput {
 }
 
 input UpdateUserInput {
-  """Username"""
-  username: String
-
   """Email of the user"""
   email: String
 

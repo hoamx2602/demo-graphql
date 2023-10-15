@@ -5,14 +5,22 @@ import { Injectable } from '@nestjs/common';
 import { ChatService } from 'src/chat/chat.service';
 import { Payload } from '../dto/payload.dto';
 import { User } from 'src/chat/entities';
+import { publicKey } from 'src/common/utils/jwt.util';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(private readonly configService: ConfigService, private readonly chatService: ChatService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly chatService: ChatService,
+  ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
-      secretOrKey: configService.get<string>('JWT_SECRET'),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: any) => {
+          return request?.cookies?.Authentication?.access_token;
+        },
+      ]),
+      secretOrKey: publicKey,
+      algorithms: ['RS256'],
     });
   }
 

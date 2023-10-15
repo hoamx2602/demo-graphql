@@ -9,6 +9,8 @@ import { GraphQLModule } from '@nestjs/graphql';
       driver: ApolloDriver,
       playground: true,
       installSubscriptionHandlers: true,
+      // Use for set cookie
+      context: ({ req, res }) => ({ req, res }),
     }),
   ],
 })

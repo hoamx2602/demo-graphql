@@ -1,6 +1,14 @@
-import { Resolver, Query, Mutation, Args, Subscription } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Subscription,
+  Context,
+  GqlContextType,
+} from '@nestjs/graphql';
 import { ChatService } from '../chat.service';
-import { UseGuards } from '@nestjs/common';
+import { ExecutionContext, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/common/auth/guards/jwt-auth.guard';
 import {
   CreateUserInput,
@@ -13,12 +21,18 @@ import { PubSub } from 'graphql-subscriptions';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { CreateMessageInput } from '../dto/create-message.input';
 import { Message, Room, User } from '../entities';
+import { ConfigService } from '@nestjs/config';
+
+import { GqlExecutionContext } from '@nestjs/graphql';
 
 const pubSub = new PubSub();
 
 @Resolver(() => User)
 export class ChatResolver {
-  constructor(private readonly chatService: ChatService) {}
+  constructor(
+    private readonly chatService: ChatService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Query(() => [User], { name: 'users' })
@@ -47,8 +61,22 @@ export class ChatResolver {
   }
 
   @Mutation(() => LoggedUserOutput)
-  loginUser(@Args('loginUserInput') loginUserInput: LoginUserInput) {
-    return this.chatService.loginUser(loginUserInput);
+  async loginUser(
+    @Args('loginUserInput') loginUserInput: LoginUserInput,
+    @Context() context,
+  ) {
+    const token = await this.chatService.loginUser(loginUserInput);
+
+    const expires = new Date();
+    expires.setSeconds(
+      expires.getSeconds() + this.configService.get('JWT_EXPIRES_IN'),
+    );
+
+    context.res.cookie('Authentication', token, {
+      httpOnly: true,
+      expires,
+    });
+    return token;
   }
 
   @UseGuards(JwtAuthGuard)
@@ -97,6 +125,12 @@ export class ChatResolver {
   @Mutation(() => Room)
   async joinRoom(@CurrentUser() user: User, @Args('roomId') roomId: string) {
     return await this.chatService.joinRoom(user, roomId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => User, { name: 'me' })
+  getMe(@CurrentUser() user: User) {
+    return user;
   }
 
   @Subscription(() => Message, {
