@@ -25,15 +25,17 @@ export class ChatService {
   ) {}
 
   async register(createUserInput: CreateUserInput) {
+    const isEmailExist = await this.userModel.findOne({
+      email: createUserInput.email,
+    });
+
+    if (isEmailExist) {
+      throw new ConflictException('This email already used!');
+    }
+
     const saltOrRounds = 10;
     const password = createUserInput.password;
     createUserInput.password = await bcrypt.hash(password, saltOrRounds);
-
-    // let messages = [];
-    // createUserInput.messages.forEach((address) => {
-    //   messages.push(new this.messageModel(address).save());
-    // });
-    // messages = await Promise.all(messages);
 
     const user = new this.userModel(createUserInput);
     return user.save();
