@@ -2,74 +2,154 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type user {
-  _id: String!
-
-  """Username """
-  username: String!
-
-  """User email """
-  email: String!
-  messages: [message!]!
-
-  """Time when create a new user"""
-  created_at: Int!
-}
-
-type room {
-  _id: String!
-
-  """Room name """
-  name: String!
-
-  """Time when create a new room"""
-  created_at: Int!
-
-  """Room members"""
-  members: [user!]!
-}
-
 type message {
   _id: String!
 
-  """Message of a user """
-  message: String!
-  room: room!
+  """Content of a message """
+  content: String
 
-  """Sender email"""
-  senderMail: String!
+  """Group id. If chat is 1:1 then group_id is null"""
+  group_id: String
 
-  """Receiver email"""
-  receiverMail: String!
+  """Message parent id use when a user reply a message of another user"""
+  message_parent_id: String
 
-  """Time to send the message"""
-  created_at: Int!
+  """Sender id"""
+  sender_id: String!
+
+  """Receiver id. If chat in a group then recipient_id is null"""
+  recipient_id: String
+
+  """Message type"""
+  message_type: String!
+
+  """Message reply type"""
+  reply_type: String!
+
+  """Media url. If message type is image/video"""
+  media_url: String!
+  created_at: Float!
+  updated_at: Float!
 }
 
-type LoggedUserOutput {
+type group {
+  _id: String!
+
+  """Group name"""
+  name: String!
+
+  """Group description"""
+  description: String!
+
+  """User Id create a group"""
+  create_by: String!
+  users: [user!]
+  created_at: Float!
+  updated_at: Float!
+}
+
+type user {
+  _id: String!
+
+  """Nick name"""
+  username: String
+
+  """User normal name"""
+  name: String
+
+  """User email"""
+  email: String!
+
+  """User phone"""
+  phone: String
+
+  """User address"""
+  address: String
+
+  """User language"""
+  lang: String
+
+  """User avatar"""
+  avatar: String
+
+  """The groups that user belong to"""
+  groups: [group!]!
+  created_at: Float!
+  updated_at: Float!
+}
+
+type group_member {
+  _id: String!
+
+  """Id member"""
+  user_id: String!
+
+  """Id group"""
+  group_id: String!
+
+  """Identify a user is admin of a group"""
+  is_admin: Boolean!
+  created_at: Float!
+  updated_at: Float!
+}
+
+type LoginUserOutput {
   """Generated access_token of the user"""
   access_token: String!
 }
 
 type Query {
-  users: [user!]!
-  rooms: [room!]!
-  user(_id: String!): user!
-  me: user!
+  getAllGroups: [group!]!
+  getCurrentUser: user!
 }
 
 type Mutation {
-  register(createUserInput: CreateUserInput!): user!
-  loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
-  createMessage(createMessageInput: CreateMessageInput!): message!
-  updateUser(updateUserInput: UpdateUserInput!): user!
-  removeUser(_id: String!): user!
+  addNewMessage(addNewMessageInput: AddNewMessageInput!, media: Upload): message!
   userTyping(userTypingInput: UserTypingInput!): Boolean!
-  createChatRoom(name: String!): room!
-  joinRoom(roomId: String!): room!
+  createGroupChat(groupChatInput: GroupChatInput!): group!
+  signup(signUpUserInput: SignUpUserInput!): user!
+  login(loginUserInput: LoginUserInput!): LoginUserOutput!
+  updateProfile(updateUserInput: UpdateUserInput!): user!
+  inviteSomeoneToGroup(inviteSomeoneInput: InviteSomeoneInput!): group_member!
 }
 
-input CreateUserInput {
+input AddNewMessageInput {
+  """Content of a message"""
+  content: String
+
+  """GroupId"""
+  groupId: String
+
+  """Parent message id if it has"""
+  parentMessageId: String
+
+  """Recipient Id"""
+  recipientId: String
+
+  """Reply type"""
+  replyType: String!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input UserTypingInput {
+  """Email of the user"""
+  email: String!
+
+  """Receiver email"""
+  receiverMail: String!
+}
+
+input GroupChatInput {
+  """Group name"""
+  name: String!
+
+  """Group description"""
+  description: String!
+}
+
+input SignUpUserInput {
   """Email of the user"""
   email: String!
 
@@ -85,33 +165,36 @@ input LoginUserInput {
   password: String!
 }
 
-input CreateMessageInput {
-  """Message of a user """
-  message: String!
-
-  """Receiver email"""
-  receiverMail: String!
-}
-
 input UpdateUserInput {
-  """Email of the user"""
-  email: String
+  """Nick name"""
+  username: String
 
-  """Password of the user"""
-  password: String
-  _id: String!
+  """User name"""
+  name: String
+
+  """User phone"""
+  phone: String
+
+  """User address"""
+  address: String
+
+  """User language"""
+  lang: String
+
+  """User avatar"""
+  avatar: String
 }
 
-input UserTypingInput {
-  """Email of the user"""
-  email: String!
+input InviteSomeoneInput {
+  """Another UserId that is invited by current user"""
+  invitedUserId: String!
 
-  """Receiver email"""
-  receiverMail: String!
+  """Group id that user is invited!"""
+  willJoinGroupId: String!
 }
 
 type Subscription {
-  newMessage(receiverMail: String!): message!
+  newMessage(groupId: String!): message!
   newUser: user!
   currentUserTyping(receiverMail: String!): user!
 }

@@ -16,6 +16,20 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@schema/schema": [
+        "libs/schema/src"
+      ],
+      "@schema/schema/*": [
+        "libs/schema/src/*"
+      ],
+      "@aws/aws": [
+        "libs/aws/src"
+      ],
+      "@aws/aws/*": [
+        "libs/aws/src/*"
+      ]
+    }
   }
 }

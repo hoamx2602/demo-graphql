@@ -10,7 +10,7 @@ import { GraphQLModule } from '@nestjs/graphql';
       playground: true,
       installSubscriptionHandlers: true,
       // Use for set cookie
-      context: ({ req, res }) => ({ req, res }),
+      // context: ({ req, res }) => ({ req, res }),
     }),
   ],
 })

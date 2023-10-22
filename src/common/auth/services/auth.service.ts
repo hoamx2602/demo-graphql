@@ -1,21 +1,22 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { ChatService } from 'src/chat/chat.service';
+import { MessageService } from 'src/message/message.service';
 import { Payload } from '../dto/payload.dto';
-import { User } from 'src/chat/entities';
+
 import { ConfigService } from '@nestjs/config';
 import { signJwt } from '../../utils/jwt.util';
+import { User } from 'libs/schema/src';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(forwardRef(() => ChatService))
-    private chatService: ChatService,
+    @Inject(forwardRef(() => MessageService))
+    private messageService: MessageService,
     private readonly configService: ConfigService,
     private jwtTokenService: JwtService,
   ) {}
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.chatService.findOneByEmail(email);
+    const user = await this.messageService.findOneByEmail(email);
     if (user) {
       if (await bcrypt.compare(password, user.password)) {
         delete user.password;

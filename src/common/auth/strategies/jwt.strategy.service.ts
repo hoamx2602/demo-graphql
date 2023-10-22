@@ -2,29 +2,27 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
-import { ChatService } from 'src/chat/chat.service';
+import { MessageService } from 'src/message/message.service';
 import { Payload } from '../dto/payload.dto';
-import { User } from 'src/chat/entities';
+
 import { publicKey } from 'src/common/utils/jwt.util';
+import { User } from 'libs/schema/src';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     private readonly configService: ConfigService,
-    private readonly chatService: ChatService,
+    private readonly messageService: MessageService,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: any) => {
-          return request?.cookies?.Authentication?.access_token;
-        },
-      ]),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
       secretOrKey: publicKey,
       algorithms: ['RS256'],
     });
   }
 
   async validate(payload: Payload): Promise<User | null> {
-    return this.chatService.findOneByEmail(payload.email);
+    return this.messageService.findOneByEmail(payload.email);
   }
 }
