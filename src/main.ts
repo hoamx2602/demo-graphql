@@ -14,7 +14,7 @@ async function bootstrap() {
   };
 
   app.enableCors(options);
-  app.use(cookieParser());
+  // app.use(cookieParser());
   app.use(
     '/graphql',
     graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }),
