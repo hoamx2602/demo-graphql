@@ -1,11 +1,10 @@
-import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
-import { User } from 'libs/schema/src';
-import { Response } from 'express';
-import { AuthenticationService } from './authentication.service';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { PubSub } from 'graphql-subscriptions';
+import { Model } from 'mongoose';
+import { User } from 'src/common/schema';
+import { AuthenticationService } from './authentication.service';
 import { LoginUserInput, LoginUserOutput, SignUpUserInput } from './dto';
 
 const pubSub = new PubSub();

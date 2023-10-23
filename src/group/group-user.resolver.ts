@@ -1,6 +1,6 @@
 import { Resolver, ResolveField, Parent } from '@nestjs/graphql';
 import { InjectModel } from '@nestjs/mongoose';
-import { Group, GroupMember, User } from 'libs/schema/src';
+import { Group, GroupMember, User } from '../common/schema';
 import { Model } from 'mongoose';
 
 @Resolver(() => Group)

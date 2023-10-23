@@ -2,505 +2,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./libs/aws/src/aws.module.ts":
-/*!************************************!*\
-  !*** ./libs/aws/src/aws.module.ts ***!
-  \************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AwsModule = void 0;
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const aws_service_1 = __webpack_require__(/*! ./aws.service */ "./libs/aws/src/aws.service.ts");
-let AwsModule = class AwsModule {
-};
-exports.AwsModule = AwsModule;
-exports.AwsModule = AwsModule = __decorate([
-    (0, common_1.Module)({
-        providers: [aws_service_1.AwsService],
-        exports: [aws_service_1.AwsService],
-    })
-], AwsModule);
-
-
-/***/ }),
-
-/***/ "./libs/aws/src/aws.service.ts":
-/*!*************************************!*\
-  !*** ./libs/aws/src/aws.service.ts ***!
-  \*************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var _a;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AwsService = void 0;
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
-const aws_sdk_1 = __webpack_require__(/*! aws-sdk */ "aws-sdk");
-let AwsService = class AwsService {
-    constructor(configService) {
-        this.configService = configService;
-        this.client = new aws_sdk_1.S3({
-            accessKeyId: configService.get('AWS_ACCESS_KEY_ID'),
-            secretAccessKey: configService.get('AWS_SECRET_KEY_ID_ID'),
-            region: configService.get('AWS_REGION'),
-        });
-        this.bucket = configService.get('AWS_BUCKET_NAME');
-        this.s3Url = configService.get('AWS_S3_URL');
-    }
-    async uploadFileToS3(file, key, contentType) {
-        const params = {
-            Bucket: this.bucket,
-            Key: key,
-            Body: file,
-            ContentType: contentType,
-        };
-        try {
-            const url = await this.client.upload(params).promise();
-            return url;
-        }
-        catch (error) {
-            throw new Error(`Error uploading file to S3: ${error.message}`);
-        }
-    }
-    getFullPath(path) {
-        return `${this.s3Url}/${path}`;
-    }
-};
-exports.AwsService = AwsService;
-exports.AwsService = AwsService = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [typeof (_a = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _a : Object])
-], AwsService);
-
-
-/***/ }),
-
-/***/ "./libs/aws/src/index.ts":
-/*!*******************************!*\
-  !*** ./libs/aws/src/index.ts ***!
-  \*******************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(/*! ./aws.module */ "./libs/aws/src/aws.module.ts"), exports);
-__exportStar(__webpack_require__(/*! ./aws.service */ "./libs/aws/src/aws.service.ts"), exports);
-
-
-/***/ }),
-
-/***/ "./libs/schema/src/group-member.entity.ts":
-/*!************************************************!*\
-  !*** ./libs/schema/src/group-member.entity.ts ***!
-  \************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var _a, _b;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.GroupMemberSchema = exports.GroupMember = void 0;
-const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
-const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
-let GroupMember = class GroupMember {
-};
-exports.GroupMember = GroupMember;
-__decorate([
-    (0, graphql_1.Field)(() => String),
-    __metadata("design:type", typeof (_b = typeof mongoose_2.Schema !== "undefined" && (_a = mongoose_2.Schema.Types) !== void 0 && _a.ObjectId) === "function" ? _b : Object)
-], GroupMember.prototype, "_id", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'Id member' }),
-    __metadata("design:type", String)
-], GroupMember.prototype, "user_id", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'Id group' }),
-    __metadata("design:type", String)
-], GroupMember.prototype, "group_id", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => Boolean, { description: 'Identify a user is admin of a group' }),
-    __metadata("design:type", Boolean)
-], GroupMember.prototype, "is_admin", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
-    (0, graphql_1.Field)(() => Number),
-    __metadata("design:type", Number)
-], GroupMember.prototype, "created_at", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
-    (0, graphql_1.Field)(() => Number),
-    __metadata("design:type", Number)
-], GroupMember.prototype, "updated_at", void 0);
-exports.GroupMember = GroupMember = __decorate([
-    (0, mongoose_1.Schema)({
-        collection: 'group_members',
-        timestamps: {
-            createdAt: 'created_at',
-            updatedAt: 'updated_at',
-            currentTime: () => Math.floor(Date.now()),
-        },
-        versionKey: false,
-    }),
-    (0, graphql_1.ObjectType)('group_member')
-], GroupMember);
-exports.GroupMemberSchema = mongoose_1.SchemaFactory.createForClass(GroupMember);
-
-
-/***/ }),
-
-/***/ "./libs/schema/src/group.entity.ts":
-/*!*****************************************!*\
-  !*** ./libs/schema/src/group.entity.ts ***!
-  \*****************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var _a, _b;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.GroupSchema = exports.Group = void 0;
-const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
-const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
-const user_entity_1 = __webpack_require__(/*! ./user.entity */ "./libs/schema/src/user.entity.ts");
-let Group = class Group {
-};
-exports.Group = Group;
-__decorate([
-    (0, graphql_1.Field)(() => String),
-    __metadata("design:type", typeof (_b = typeof mongoose_2.Schema !== "undefined" && (_a = mongoose_2.Schema.Types) !== void 0 && _a.ObjectId) === "function" ? _b : Object)
-], Group.prototype, "_id", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'Group name' }),
-    __metadata("design:type", String)
-], Group.prototype, "name", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'Group description' }),
-    __metadata("design:type", String)
-], Group.prototype, "description", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'User Id create a group' }),
-    __metadata("design:type", String)
-], Group.prototype, "create_by", void 0);
-__decorate([
-    (0, graphql_1.Field)(() => [user_entity_1.User], { nullable: true }),
-    __metadata("design:type", Array)
-], Group.prototype, "users", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
-    (0, graphql_1.Field)(() => Number),
-    __metadata("design:type", Number)
-], Group.prototype, "created_at", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
-    (0, graphql_1.Field)(() => Number),
-    __metadata("design:type", Number)
-], Group.prototype, "updated_at", void 0);
-exports.Group = Group = __decorate([
-    (0, mongoose_1.Schema)({
-        collection: 'groups',
-        timestamps: {
-            createdAt: 'created_at',
-            updatedAt: 'updated_at',
-            currentTime: () => Math.floor(Date.now()),
-        },
-        versionKey: false,
-    }),
-    (0, graphql_1.ObjectType)('group')
-], Group);
-exports.GroupSchema = mongoose_1.SchemaFactory.createForClass(Group);
-
-
-/***/ }),
-
-/***/ "./libs/schema/src/index.ts":
-/*!**********************************!*\
-  !*** ./libs/schema/src/index.ts ***!
-  \**********************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(/*! ./message.entity */ "./libs/schema/src/message.entity.ts"), exports);
-__exportStar(__webpack_require__(/*! ./user.entity */ "./libs/schema/src/user.entity.ts"), exports);
-__exportStar(__webpack_require__(/*! ./group-member.entity */ "./libs/schema/src/group-member.entity.ts"), exports);
-__exportStar(__webpack_require__(/*! ./group.entity */ "./libs/schema/src/group.entity.ts"), exports);
-
-
-/***/ }),
-
-/***/ "./libs/schema/src/message.entity.ts":
-/*!*******************************************!*\
-  !*** ./libs/schema/src/message.entity.ts ***!
-  \*******************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var _a, _b, _c, _d;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.MessageSchema = exports.Message = void 0;
-const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
-const mongoose_1 = __webpack_require__(/*! mongoose */ "mongoose");
-const mongoose_2 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const constants_1 = __webpack_require__(/*! src/common/constants */ "./src/common/constants/index.ts");
-let Message = class Message {
-};
-exports.Message = Message;
-__decorate([
-    (0, graphql_1.Field)(() => String),
-    __metadata("design:type", typeof (_b = typeof mongoose_1.Schema !== "undefined" && (_a = mongoose_1.Schema.Types) !== void 0 && _a.ObjectId) === "function" ? _b : Object)
-], Message.prototype, "_id", void 0);
-__decorate([
-    (0, mongoose_2.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'Content of a message ', nullable: true }),
-    __metadata("design:type", String)
-], Message.prototype, "content", void 0);
-__decorate([
-    (0, mongoose_2.Prop)(),
-    (0, graphql_1.Field)(() => String, {
-        description: 'Group id. If chat is 1:1 then group_id is null',
-        nullable: true,
-    }),
-    __metadata("design:type", String)
-], Message.prototype, "group_id", void 0);
-__decorate([
-    (0, mongoose_2.Prop)(),
-    (0, graphql_1.Field)(() => String, {
-        description: 'Message parent id use when a user reply a message of another user',
-        nullable: true,
-    }),
-    __metadata("design:type", String)
-], Message.prototype, "message_parent_id", void 0);
-__decorate([
-    (0, mongoose_2.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'Sender id' }),
-    __metadata("design:type", String)
-], Message.prototype, "sender_id", void 0);
-__decorate([
-    (0, mongoose_2.Prop)(),
-    (0, graphql_1.Field)(() => String, {
-        description: 'Receiver id. If chat in a group then recipient_id is null',
-        nullable: true,
-    }),
-    __metadata("design:type", String)
-], Message.prototype, "recipient_id", void 0);
-__decorate([
-    (0, mongoose_2.Prop)({ type: 'string' }),
-    (0, graphql_1.Field)(() => String, { description: 'Message type' }),
-    __metadata("design:type", typeof (_c = typeof constants_1.MESSAGE_TYPE !== "undefined" && constants_1.MESSAGE_TYPE) === "function" ? _c : Object)
-], Message.prototype, "message_type", void 0);
-__decorate([
-    (0, mongoose_2.Prop)({ type: 'string' }),
-    (0, graphql_1.Field)(() => String, { description: 'Message reply type' }),
-    __metadata("design:type", typeof (_d = typeof constants_1.REPLY_TYPE !== "undefined" && constants_1.REPLY_TYPE) === "function" ? _d : Object)
-], Message.prototype, "reply_type", void 0);
-__decorate([
-    (0, mongoose_2.Prop)(),
-    (0, graphql_1.Field)(() => String, {
-        description: 'Media url. If message type is image/video',
-    }),
-    __metadata("design:type", String)
-], Message.prototype, "media_url", void 0);
-__decorate([
-    (0, mongoose_2.Prop)({ type: 'number', default: () => Date.now() }),
-    (0, graphql_1.Field)(() => Number),
-    __metadata("design:type", Number)
-], Message.prototype, "created_at", void 0);
-__decorate([
-    (0, mongoose_2.Prop)({ type: 'number', default: () => Date.now() }),
-    (0, graphql_1.Field)(() => Number),
-    __metadata("design:type", Number)
-], Message.prototype, "updated_at", void 0);
-exports.Message = Message = __decorate([
-    (0, mongoose_2.Schema)({
-        collection: 'messages',
-        versionKey: false,
-    }),
-    (0, graphql_1.ObjectType)('message')
-], Message);
-exports.MessageSchema = mongoose_2.SchemaFactory.createForClass(Message);
-
-
-/***/ }),
-
-/***/ "./libs/schema/src/user.entity.ts":
-/*!****************************************!*\
-  !*** ./libs/schema/src/user.entity.ts ***!
-  \****************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var _a, _b;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UserSchema = exports.User = void 0;
-const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
-const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
-const group_entity_1 = __webpack_require__(/*! ./group.entity */ "./libs/schema/src/group.entity.ts");
-let User = class User {
-};
-exports.User = User;
-__decorate([
-    (0, graphql_1.Field)(() => String),
-    __metadata("design:type", typeof (_b = typeof mongoose_2.Schema !== "undefined" && (_a = mongoose_2.Schema.Types) !== void 0 && _a.ObjectId) === "function" ? _b : Object)
-], User.prototype, "_id", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'Nick name', nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "username", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'User normal name', nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "name", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ unique: true }),
-    (0, graphql_1.Field)(() => String, { description: 'User email' }),
-    __metadata("design:type", String)
-], User.prototype, "email", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'User phone', nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "phone", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'User address', nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "address", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'User language', nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "lang", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, graphql_1.Field)(() => String, { description: 'User avatar', nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "avatar", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], User.prototype, "password", void 0);
-__decorate([
-    (0, graphql_1.Field)(() => [group_entity_1.Group], { description: 'The groups that user belong to' }),
-    __metadata("design:type", Array)
-], User.prototype, "groups", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
-    (0, graphql_1.Field)(() => Number),
-    __metadata("design:type", Number)
-], User.prototype, "created_at", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
-    (0, graphql_1.Field)(() => Number),
-    __metadata("design:type", Number)
-], User.prototype, "updated_at", void 0);
-exports.User = User = __decorate([
-    (0, mongoose_1.Schema)({
-        collection: 'users',
-        timestamps: {
-            createdAt: 'created_at',
-            updatedAt: 'updated_at',
-            currentTime: () => Math.floor(Date.now()),
-        },
-        versionKey: false,
-    }),
-    (0, graphql_1.ObjectType)('user')
-], User);
-exports.UserSchema = mongoose_1.SchemaFactory.createForClass(User);
-
-
-/***/ }),
-
 /***/ "./src/app.controller.ts":
 /*!*******************************!*\
   !*** ./src/app.controller.ts ***!
@@ -674,7 +175,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AuthenticationService = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
+const schema_1 = __webpack_require__(/*! ../common/schema */ "./src/common/schema/index.ts");
 const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
 const bcrypt_1 = __webpack_require__(/*! bcrypt */ "bcrypt");
 const auth_service_1 = __webpack_require__(/*! src/common/auth/services/auth.service */ "./src/common/auth/services/auth.service.ts");
@@ -710,9 +211,9 @@ let AuthenticationService = class AuthenticationService {
 };
 exports.AuthenticationService = AuthenticationService;
 exports.AuthenticationService = AuthenticationService = __decorate([
-    __param(1, (0, mongoose_1.InjectModel)(src_1.User.name)),
-    __param(2, (0, mongoose_1.InjectModel)(src_1.Message.name)),
-    __param(3, (0, mongoose_1.InjectModel)(src_1.Group.name)),
+    __param(1, (0, mongoose_1.InjectModel)(schema_1.User.name)),
+    __param(2, (0, mongoose_1.InjectModel)(schema_1.Message.name)),
+    __param(3, (0, mongoose_1.InjectModel)(schema_1.Group.name)),
     __metadata("design:paramtypes", [typeof (_a = typeof auth_service_1.AuthService !== "undefined" && auth_service_1.AuthService) === "function" ? _a : Object, typeof (_b = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _b : Object, typeof (_c = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _c : Object, typeof (_d = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _d : Object])
 ], AuthenticationService);
 
@@ -742,12 +243,12 @@ var _a, _b, _c, _d, _e;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AuthenticationResolver = void 0;
 const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
-const authentication_service_1 = __webpack_require__(/*! ./authentication.service */ "./src/authentication/authentication.service.ts");
 const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
 const graphql_subscriptions_1 = __webpack_require__(/*! graphql-subscriptions */ "graphql-subscriptions");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+const schema_1 = __webpack_require__(/*! src/common/schema */ "./src/common/schema/index.ts");
+const authentication_service_1 = __webpack_require__(/*! ./authentication.service */ "./src/authentication/authentication.service.ts");
 const dto_1 = __webpack_require__(/*! ./dto */ "./src/authentication/dto/index.ts");
 const pubSub = new graphql_subscriptions_1.PubSub();
 let AuthenticationResolver = class AuthenticationResolver {
@@ -770,7 +271,7 @@ let AuthenticationResolver = class AuthenticationResolver {
 };
 exports.AuthenticationResolver = AuthenticationResolver;
 __decorate([
-    (0, graphql_1.Mutation)(() => src_1.User),
+    (0, graphql_1.Mutation)(() => schema_1.User),
     __param(0, (0, graphql_1.Args)('signUpUserInput')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [typeof (_d = typeof dto_1.SignUpUserInput !== "undefined" && dto_1.SignUpUserInput) === "function" ? _d : Object]),
@@ -785,7 +286,7 @@ __decorate([
 ], AuthenticationResolver.prototype, "login", null);
 exports.AuthenticationResolver = AuthenticationResolver = __decorate([
     (0, graphql_1.Resolver)(),
-    __param(2, (0, mongoose_1.InjectModel)(src_1.User.name)),
+    __param(2, (0, mongoose_1.InjectModel)(schema_1.User.name)),
     __metadata("design:paramtypes", [typeof (_a = typeof authentication_service_1.AuthenticationService !== "undefined" && authentication_service_1.AuthenticationService) === "function" ? _a : Object, typeof (_b = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _b : Object, typeof (_c = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _c : Object])
 ], AuthenticationResolver);
 
@@ -1205,6 +706,97 @@ exports.JwtStrategy = JwtStrategy = __decorate([
 
 /***/ }),
 
+/***/ "./src/common/aws.module.ts":
+/*!**********************************!*\
+  !*** ./src/common/aws.module.ts ***!
+  \**********************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AwsModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const aws_service_1 = __webpack_require__(/*! ./aws/aws.service */ "./src/common/aws/aws.service.ts");
+let AwsModule = class AwsModule {
+};
+exports.AwsModule = AwsModule;
+exports.AwsModule = AwsModule = __decorate([
+    (0, common_1.Module)({
+        providers: [aws_service_1.AwsService],
+        exports: [aws_service_1.AwsService],
+    })
+], AwsModule);
+
+
+/***/ }),
+
+/***/ "./src/common/aws/aws.service.ts":
+/*!***************************************!*\
+  !*** ./src/common/aws/aws.service.ts ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AwsService = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
+const aws_sdk_1 = __webpack_require__(/*! aws-sdk */ "aws-sdk");
+let AwsService = class AwsService {
+    constructor(configService) {
+        this.configService = configService;
+        this.client = new aws_sdk_1.S3({
+            accessKeyId: configService.get('AWS_ACCESS_KEY_ID'),
+            secretAccessKey: configService.get('AWS_SECRET_KEY_ID_ID'),
+            region: configService.get('AWS_REGION'),
+        });
+        this.bucket = configService.get('AWS_BUCKET_NAME');
+        this.s3Url = configService.get('AWS_S3_URL');
+    }
+    async uploadFileToS3(file, key, contentType) {
+        const params = {
+            Bucket: this.bucket,
+            Key: key,
+            Body: file,
+            ContentType: contentType,
+        };
+        try {
+            const url = await this.client.upload(params).promise();
+            return url;
+        }
+        catch (error) {
+            throw new Error(`Error uploading file to S3: ${error.message}`);
+        }
+    }
+    getFullPath(path) {
+        return `${this.s3Url}/${path}`;
+    }
+};
+exports.AwsService = AwsService;
+exports.AwsService = AwsService = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [typeof (_a = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _a : Object])
+], AwsService);
+
+
+/***/ }),
+
 /***/ "./src/common/common.module.ts":
 /*!*************************************!*\
   !*** ./src/common/common.module.ts ***!
@@ -1225,14 +817,14 @@ const graphql_module_1 = __webpack_require__(/*! ./graphql.module */ "./src/comm
 const config_module_1 = __webpack_require__(/*! ./config.module */ "./src/common/config.module.ts");
 const mongo_module_1 = __webpack_require__(/*! ./mongo.module */ "./src/common/mongo.module.ts");
 const auth_module_1 = __webpack_require__(/*! ./auth.module */ "./src/common/auth.module.ts");
-const src_1 = __webpack_require__(/*! libs/aws/src */ "./libs/aws/src/index.ts");
+const aws_module_1 = __webpack_require__(/*! ./aws.module */ "./src/common/aws.module.ts");
 let CommonModule = class CommonModule {
 };
 exports.CommonModule = CommonModule;
 exports.CommonModule = CommonModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_module_1.ConfigModule, graphql_module_1.GraphqlModule, mongo_module_1.MongoModule, auth_module_1.AuthModule, src_1.AwsModule],
-        exports: [config_module_1.ConfigModule, graphql_module_1.GraphqlModule, mongo_module_1.MongoModule, auth_module_1.AuthModule, src_1.AwsModule],
+        imports: [config_module_1.ConfigModule, graphql_module_1.GraphqlModule, mongo_module_1.MongoModule, auth_module_1.AuthModule, aws_module_1.AwsModule],
+        exports: [config_module_1.ConfigModule, graphql_module_1.GraphqlModule, mongo_module_1.MongoModule, auth_module_1.AuthModule, aws_module_1.AwsModule],
     })
 ], CommonModule);
 
@@ -1399,7 +991,7 @@ exports.MongoModule = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
+const schema_1 = __webpack_require__(/*! ../common/schema */ "./src/common/schema/index.ts");
 let MongoModule = class MongoModule {
 };
 exports.MongoModule = MongoModule;
@@ -1414,26 +1006,406 @@ exports.MongoModule = MongoModule = __decorate([
             }),
             mongoose_1.MongooseModule.forFeature([
                 {
-                    name: src_1.User.name,
-                    schema: src_1.UserSchema,
+                    name: schema_1.User.name,
+                    schema: schema_1.UserSchema,
                 },
                 {
-                    name: src_1.Message.name,
-                    schema: src_1.MessageSchema,
+                    name: schema_1.Message.name,
+                    schema: schema_1.MessageSchema,
                 },
                 {
-                    name: src_1.Group.name,
-                    schema: src_1.GroupSchema,
+                    name: schema_1.Group.name,
+                    schema: schema_1.GroupSchema,
                 },
                 {
-                    name: src_1.GroupMember.name,
-                    schema: src_1.GroupMemberSchema,
+                    name: schema_1.GroupMember.name,
+                    schema: schema_1.GroupMemberSchema,
                 },
             ]),
         ],
         exports: [mongoose_1.MongooseModule],
     })
 ], MongoModule);
+
+
+/***/ }),
+
+/***/ "./src/common/schema/group-member.entity.ts":
+/*!**************************************************!*\
+  !*** ./src/common/schema/group-member.entity.ts ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a, _b;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GroupMemberSchema = exports.GroupMember = void 0;
+const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+let GroupMember = class GroupMember {
+};
+exports.GroupMember = GroupMember;
+__decorate([
+    (0, graphql_1.Field)(() => String),
+    __metadata("design:type", typeof (_b = typeof mongoose_2.Schema !== "undefined" && (_a = mongoose_2.Schema.Types) !== void 0 && _a.ObjectId) === "function" ? _b : Object)
+], GroupMember.prototype, "_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'Id member' }),
+    __metadata("design:type", String)
+], GroupMember.prototype, "user_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'Id group' }),
+    __metadata("design:type", String)
+], GroupMember.prototype, "group_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => Boolean, { description: 'Identify a user is admin of a group' }),
+    __metadata("design:type", Boolean)
+], GroupMember.prototype, "is_admin", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
+    (0, graphql_1.Field)(() => Number),
+    __metadata("design:type", Number)
+], GroupMember.prototype, "created_at", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
+    (0, graphql_1.Field)(() => Number),
+    __metadata("design:type", Number)
+], GroupMember.prototype, "updated_at", void 0);
+exports.GroupMember = GroupMember = __decorate([
+    (0, mongoose_1.Schema)({
+        collection: 'group_members',
+        timestamps: {
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
+            currentTime: () => Math.floor(Date.now()),
+        },
+        versionKey: false,
+    }),
+    (0, graphql_1.ObjectType)('group_member')
+], GroupMember);
+exports.GroupMemberSchema = mongoose_1.SchemaFactory.createForClass(GroupMember);
+
+
+/***/ }),
+
+/***/ "./src/common/schema/group.entity.ts":
+/*!*******************************************!*\
+  !*** ./src/common/schema/group.entity.ts ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a, _b;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GroupSchema = exports.Group = void 0;
+const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+const user_entity_1 = __webpack_require__(/*! ./user.entity */ "./src/common/schema/user.entity.ts");
+let Group = class Group {
+};
+exports.Group = Group;
+__decorate([
+    (0, graphql_1.Field)(() => String),
+    __metadata("design:type", typeof (_b = typeof mongoose_2.Schema !== "undefined" && (_a = mongoose_2.Schema.Types) !== void 0 && _a.ObjectId) === "function" ? _b : Object)
+], Group.prototype, "_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'Group name' }),
+    __metadata("design:type", String)
+], Group.prototype, "name", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'Group description' }),
+    __metadata("design:type", String)
+], Group.prototype, "description", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'User Id create a group' }),
+    __metadata("design:type", String)
+], Group.prototype, "create_by", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => [user_entity_1.User], { nullable: true }),
+    __metadata("design:type", Array)
+], Group.prototype, "users", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
+    (0, graphql_1.Field)(() => Number),
+    __metadata("design:type", Number)
+], Group.prototype, "created_at", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
+    (0, graphql_1.Field)(() => Number),
+    __metadata("design:type", Number)
+], Group.prototype, "updated_at", void 0);
+exports.Group = Group = __decorate([
+    (0, mongoose_1.Schema)({
+        collection: 'groups',
+        timestamps: {
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
+            currentTime: () => Math.floor(Date.now()),
+        },
+        versionKey: false,
+    }),
+    (0, graphql_1.ObjectType)('group')
+], Group);
+exports.GroupSchema = mongoose_1.SchemaFactory.createForClass(Group);
+
+
+/***/ }),
+
+/***/ "./src/common/schema/index.ts":
+/*!************************************!*\
+  !*** ./src/common/schema/index.ts ***!
+  \************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(/*! ./message.entity */ "./src/common/schema/message.entity.ts"), exports);
+__exportStar(__webpack_require__(/*! ./user.entity */ "./src/common/schema/user.entity.ts"), exports);
+__exportStar(__webpack_require__(/*! ./group-member.entity */ "./src/common/schema/group-member.entity.ts"), exports);
+__exportStar(__webpack_require__(/*! ./group.entity */ "./src/common/schema/group.entity.ts"), exports);
+
+
+/***/ }),
+
+/***/ "./src/common/schema/message.entity.ts":
+/*!*********************************************!*\
+  !*** ./src/common/schema/message.entity.ts ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a, _b, _c, _d;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MessageSchema = exports.Message = void 0;
+const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
+const mongoose_1 = __webpack_require__(/*! mongoose */ "mongoose");
+const mongoose_2 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const constants_1 = __webpack_require__(/*! src/common/constants */ "./src/common/constants/index.ts");
+let Message = class Message {
+};
+exports.Message = Message;
+__decorate([
+    (0, graphql_1.Field)(() => String),
+    __metadata("design:type", typeof (_b = typeof mongoose_1.Schema !== "undefined" && (_a = mongoose_1.Schema.Types) !== void 0 && _a.ObjectId) === "function" ? _b : Object)
+], Message.prototype, "_id", void 0);
+__decorate([
+    (0, mongoose_2.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'Content of a message ', nullable: true }),
+    __metadata("design:type", String)
+], Message.prototype, "content", void 0);
+__decorate([
+    (0, mongoose_2.Prop)(),
+    (0, graphql_1.Field)(() => String, {
+        description: 'Group id. If chat is 1:1 then group_id is null',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], Message.prototype, "group_id", void 0);
+__decorate([
+    (0, mongoose_2.Prop)(),
+    (0, graphql_1.Field)(() => String, {
+        description: 'Message parent id use when a user reply a message of another user',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], Message.prototype, "message_parent_id", void 0);
+__decorate([
+    (0, mongoose_2.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'Sender id' }),
+    __metadata("design:type", String)
+], Message.prototype, "sender_id", void 0);
+__decorate([
+    (0, mongoose_2.Prop)(),
+    (0, graphql_1.Field)(() => String, {
+        description: 'Receiver id. If chat in a group then recipient_id is null',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], Message.prototype, "recipient_id", void 0);
+__decorate([
+    (0, mongoose_2.Prop)({ type: 'string' }),
+    (0, graphql_1.Field)(() => String, { description: 'Message type' }),
+    __metadata("design:type", typeof (_c = typeof constants_1.MESSAGE_TYPE !== "undefined" && constants_1.MESSAGE_TYPE) === "function" ? _c : Object)
+], Message.prototype, "message_type", void 0);
+__decorate([
+    (0, mongoose_2.Prop)({ type: 'string' }),
+    (0, graphql_1.Field)(() => String, { description: 'Message reply type' }),
+    __metadata("design:type", typeof (_d = typeof constants_1.REPLY_TYPE !== "undefined" && constants_1.REPLY_TYPE) === "function" ? _d : Object)
+], Message.prototype, "reply_type", void 0);
+__decorate([
+    (0, mongoose_2.Prop)(),
+    (0, graphql_1.Field)(() => String, {
+        description: 'Media url. If message type is image/video',
+    }),
+    __metadata("design:type", String)
+], Message.prototype, "media_url", void 0);
+__decorate([
+    (0, mongoose_2.Prop)({ type: 'number', default: () => Date.now() }),
+    (0, graphql_1.Field)(() => Number),
+    __metadata("design:type", Number)
+], Message.prototype, "created_at", void 0);
+__decorate([
+    (0, mongoose_2.Prop)({ type: 'number', default: () => Date.now() }),
+    (0, graphql_1.Field)(() => Number),
+    __metadata("design:type", Number)
+], Message.prototype, "updated_at", void 0);
+exports.Message = Message = __decorate([
+    (0, mongoose_2.Schema)({
+        collection: 'messages',
+        versionKey: false,
+    }),
+    (0, graphql_1.ObjectType)('message')
+], Message);
+exports.MessageSchema = mongoose_2.SchemaFactory.createForClass(Message);
+
+
+/***/ }),
+
+/***/ "./src/common/schema/user.entity.ts":
+/*!******************************************!*\
+  !*** ./src/common/schema/user.entity.ts ***!
+  \******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a, _b;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UserSchema = exports.User = void 0;
+const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+const group_entity_1 = __webpack_require__(/*! ./group.entity */ "./src/common/schema/group.entity.ts");
+let User = class User {
+};
+exports.User = User;
+__decorate([
+    (0, graphql_1.Field)(() => String),
+    __metadata("design:type", typeof (_b = typeof mongoose_2.Schema !== "undefined" && (_a = mongoose_2.Schema.Types) !== void 0 && _a.ObjectId) === "function" ? _b : Object)
+], User.prototype, "_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'Nick name', nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "username", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'User normal name', nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "name", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ unique: true }),
+    (0, graphql_1.Field)(() => String, { description: 'User email' }),
+    __metadata("design:type", String)
+], User.prototype, "email", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'User phone', nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "phone", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'User address', nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "address", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'User language', nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "lang", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, graphql_1.Field)(() => String, { description: 'User avatar', nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "avatar", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => [group_entity_1.Group], { description: 'The groups that user belong to' }),
+    __metadata("design:type", Array)
+], User.prototype, "groups", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
+    (0, graphql_1.Field)(() => Number),
+    __metadata("design:type", Number)
+], User.prototype, "created_at", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: 'number', default: () => Date.now() }),
+    (0, graphql_1.Field)(() => Number),
+    __metadata("design:type", Number)
+], User.prototype, "updated_at", void 0);
+exports.User = User = __decorate([
+    (0, mongoose_1.Schema)({
+        collection: 'users',
+        timestamps: {
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
+            currentTime: () => Math.floor(Date.now()),
+        },
+        versionKey: false,
+    }),
+    (0, graphql_1.ObjectType)('user')
+], User);
+exports.UserSchema = mongoose_1.SchemaFactory.createForClass(User);
 
 
 /***/ }),
@@ -1620,7 +1592,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GroupUserResolver = void 0;
 const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
+const schema_1 = __webpack_require__(/*! ../common/schema */ "./src/common/schema/index.ts");
 const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
 let GroupUserResolver = class GroupUserResolver {
     constructor(userModel, groupModel, groupMemberModel) {
@@ -1642,17 +1614,17 @@ let GroupUserResolver = class GroupUserResolver {
 };
 exports.GroupUserResolver = GroupUserResolver;
 __decorate([
-    (0, graphql_1.ResolveField)('users', () => [src_1.User]),
+    (0, graphql_1.ResolveField)('users', () => [schema_1.User]),
     __param(0, (0, graphql_1.Parent)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_d = typeof src_1.Group !== "undefined" && src_1.Group) === "function" ? _d : Object]),
+    __metadata("design:paramtypes", [typeof (_d = typeof schema_1.Group !== "undefined" && schema_1.Group) === "function" ? _d : Object]),
     __metadata("design:returntype", Promise)
 ], GroupUserResolver.prototype, "users", null);
 exports.GroupUserResolver = GroupUserResolver = __decorate([
-    (0, graphql_1.Resolver)(() => src_1.Group),
-    __param(0, (0, mongoose_1.InjectModel)(src_1.User.name)),
-    __param(1, (0, mongoose_1.InjectModel)(src_1.Group.name)),
-    __param(2, (0, mongoose_1.InjectModel)(src_1.GroupMember.name)),
+    (0, graphql_1.Resolver)(() => schema_1.Group),
+    __param(0, (0, mongoose_1.InjectModel)(schema_1.User.name)),
+    __param(1, (0, mongoose_1.InjectModel)(schema_1.Group.name)),
+    __param(2, (0, mongoose_1.InjectModel)(schema_1.GroupMember.name)),
     __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, typeof (_b = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _b : Object, typeof (_c = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _c : Object])
 ], GroupUserResolver);
 
@@ -1717,11 +1689,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GroupResolver = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
 const jwt_auth_guard_1 = __webpack_require__(/*! src/common/auth/guards/jwt-auth.guard */ "./src/common/auth/guards/jwt-auth.guard.ts");
 const current_user_decorator_1 = __webpack_require__(/*! src/common/decorators/current-user.decorator */ "./src/common/decorators/current-user.decorator.ts");
-const group_service_1 = __webpack_require__(/*! ./group.service */ "./src/group/group.service.ts");
+const schema_1 = __webpack_require__(/*! ../common/schema */ "./src/common/schema/index.ts");
 const dto_1 = __webpack_require__(/*! ./dto */ "./src/group/dto/index.ts");
+const group_service_1 = __webpack_require__(/*! ./group.service */ "./src/group/group.service.ts");
 let GroupResolver = class GroupResolver {
     constructor(groupService) {
         this.groupService = groupService;
@@ -1736,19 +1708,19 @@ let GroupResolver = class GroupResolver {
 exports.GroupResolver = GroupResolver;
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Mutation)(() => src_1.Group),
+    (0, graphql_1.Mutation)(() => schema_1.Group),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, graphql_1.Args)('groupChatInput')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_b = typeof src_1.User !== "undefined" && src_1.User) === "function" ? _b : Object, typeof (_c = typeof dto_1.GroupChatInput !== "undefined" && dto_1.GroupChatInput) === "function" ? _c : Object]),
+    __metadata("design:paramtypes", [typeof (_b = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _b : Object, typeof (_c = typeof dto_1.GroupChatInput !== "undefined" && dto_1.GroupChatInput) === "function" ? _c : Object]),
     __metadata("design:returntype", Promise)
 ], GroupResolver.prototype, "createGroupChat", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Query)(() => [src_1.Group]),
+    (0, graphql_1.Query)(() => [schema_1.Group]),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_d = typeof src_1.User !== "undefined" && src_1.User) === "function" ? _d : Object]),
+    __metadata("design:paramtypes", [typeof (_d = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _d : Object]),
     __metadata("design:returntype", Promise)
 ], GroupResolver.prototype, "getAllGroups", null);
 exports.GroupResolver = GroupResolver = __decorate([
@@ -1783,7 +1755,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GroupService = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
+const schema_1 = __webpack_require__(/*! ../common/schema */ "./src/common/schema/index.ts");
 const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
 const auth_service_1 = __webpack_require__(/*! src/common/auth/services/auth.service */ "./src/common/auth/services/auth.service.ts");
 let GroupService = class GroupService {
@@ -1837,10 +1809,10 @@ let GroupService = class GroupService {
 exports.GroupService = GroupService;
 exports.GroupService = GroupService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(src_1.User.name)),
-    __param(1, (0, mongoose_1.InjectModel)(src_1.Message.name)),
-    __param(2, (0, mongoose_1.InjectModel)(src_1.Group.name)),
-    __param(3, (0, mongoose_1.InjectModel)(src_1.GroupMember.name)),
+    __param(0, (0, mongoose_1.InjectModel)(schema_1.User.name)),
+    __param(1, (0, mongoose_1.InjectModel)(schema_1.Message.name)),
+    __param(2, (0, mongoose_1.InjectModel)(schema_1.Group.name)),
+    __param(3, (0, mongoose_1.InjectModel)(schema_1.GroupMember.name)),
     __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, typeof (_b = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _b : Object, typeof (_c = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _c : Object, typeof (_d = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _d : Object, typeof (_e = typeof auth_service_1.AuthService !== "undefined" && auth_service_1.AuthService) === "function" ? _e : Object])
 ], GroupService);
 
@@ -2082,12 +2054,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MessageService = void 0;
-const src_1 = __webpack_require__(/*! libs/aws/src */ "./libs/aws/src/index.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const src_2 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
+const schema_1 = __webpack_require__(/*! ../common/schema */ "./src/common/schema/index.ts");
 const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
 const auth_service_1 = __webpack_require__(/*! src/common/auth/services/auth.service */ "./src/common/auth/services/auth.service.ts");
+const aws_service_1 = __webpack_require__(/*! src/common/aws/aws.service */ "./src/common/aws/aws.service.ts");
 let MessageService = class MessageService {
     constructor(userModel, messageModel, groupModel, groupMemberModel, authService, awsService) {
         this.userModel = userModel;
@@ -2183,11 +2155,11 @@ let MessageService = class MessageService {
 exports.MessageService = MessageService;
 exports.MessageService = MessageService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(src_2.User.name)),
-    __param(1, (0, mongoose_1.InjectModel)(src_2.Message.name)),
-    __param(2, (0, mongoose_1.InjectModel)(src_2.Group.name)),
-    __param(3, (0, mongoose_1.InjectModel)(src_2.GroupMember.name)),
-    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, typeof (_b = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _b : Object, typeof (_c = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _c : Object, typeof (_d = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _d : Object, typeof (_e = typeof auth_service_1.AuthService !== "undefined" && auth_service_1.AuthService) === "function" ? _e : Object, typeof (_f = typeof src_1.AwsService !== "undefined" && src_1.AwsService) === "function" ? _f : Object])
+    __param(0, (0, mongoose_1.InjectModel)(schema_1.User.name)),
+    __param(1, (0, mongoose_1.InjectModel)(schema_1.Message.name)),
+    __param(2, (0, mongoose_1.InjectModel)(schema_1.Group.name)),
+    __param(3, (0, mongoose_1.InjectModel)(schema_1.GroupMember.name)),
+    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, typeof (_b = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _b : Object, typeof (_c = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _c : Object, typeof (_d = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _d : Object, typeof (_e = typeof auth_service_1.AuthService !== "undefined" && auth_service_1.AuthService) === "function" ? _e : Object, typeof (_f = typeof aws_service_1.AwsService !== "undefined" && aws_service_1.AwsService) === "function" ? _f : Object])
 ], MessageService);
 
 
@@ -2246,15 +2218,15 @@ exports.MessageResolver = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
 const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
 const graphql_subscriptions_1 = __webpack_require__(/*! graphql-subscriptions */ "graphql-subscriptions");
-const jwt_auth_guard_1 = __webpack_require__(/*! src/common/auth/guards/jwt-auth.guard */ "./src/common/auth/guards/jwt-auth.guard.ts");
-const current_user_decorator_1 = __webpack_require__(/*! src/common/decorators/current-user.decorator */ "./src/common/decorators/current-user.decorator.ts");
-const group_service_1 = __webpack_require__(/*! src/group/group.service */ "./src/group/group.service.ts");
-const message_service_1 = __webpack_require__(/*! ../message.service */ "./src/message/message.service.ts");
-const input_1 = __webpack_require__(/*! ../dto/input */ "./src/message/dto/input/index.ts");
 const graphql_upload_ts_1 = __webpack_require__(/*! graphql-upload-ts */ "graphql-upload-ts");
-const src_2 = __webpack_require__(/*! libs/aws/src */ "./libs/aws/src/index.ts");
+const jwt_auth_guard_1 = __webpack_require__(/*! src/common/auth/guards/jwt-auth.guard */ "./src/common/auth/guards/jwt-auth.guard.ts");
+const aws_service_1 = __webpack_require__(/*! src/common/aws/aws.service */ "./src/common/aws/aws.service.ts");
+const current_user_decorator_1 = __webpack_require__(/*! src/common/decorators/current-user.decorator */ "./src/common/decorators/current-user.decorator.ts");
+const schema_1 = __webpack_require__(/*! src/common/schema */ "./src/common/schema/index.ts");
+const group_service_1 = __webpack_require__(/*! src/group/group.service */ "./src/group/group.service.ts");
+const input_1 = __webpack_require__(/*! ../dto/input */ "./src/message/dto/input/index.ts");
+const message_service_1 = __webpack_require__(/*! ../message.service */ "./src/message/message.service.ts");
 const pubSub = new graphql_subscriptions_1.PubSub();
 let MessageResolver = class MessageResolver {
     constructor(messageService, groupService, configService, awsService) {
@@ -2301,12 +2273,12 @@ let MessageResolver = class MessageResolver {
 exports.MessageResolver = MessageResolver;
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Mutation)(() => src_1.Message),
+    (0, graphql_1.Mutation)(() => schema_1.Message),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, graphql_1.Args)('addNewMessageInput')),
     __param(2, (0, graphql_1.Args)('media', { type: () => graphql_upload_ts_1.GraphQLUpload, nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_e = typeof src_1.User !== "undefined" && src_1.User) === "function" ? _e : Object, typeof (_f = typeof input_1.AddNewMessageInput !== "undefined" && input_1.AddNewMessageInput) === "function" ? _f : Object, typeof (_g = typeof graphql_upload_ts_1.FileUpload !== "undefined" && graphql_upload_ts_1.FileUpload) === "function" ? _g : Object]),
+    __metadata("design:paramtypes", [typeof (_e = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _e : Object, typeof (_f = typeof input_1.AddNewMessageInput !== "undefined" && input_1.AddNewMessageInput) === "function" ? _f : Object, typeof (_g = typeof graphql_upload_ts_1.FileUpload !== "undefined" && graphql_upload_ts_1.FileUpload) === "function" ? _g : Object]),
     __metadata("design:returntype", Promise)
 ], MessageResolver.prototype, "addNewMessage", null);
 __decorate([
@@ -2317,7 +2289,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MessageResolver.prototype, "userTyping", null);
 __decorate([
-    (0, graphql_1.Subscription)(() => src_1.Message, {
+    (0, graphql_1.Subscription)(() => schema_1.Message, {
         filter: (payload, variables) => {
             return payload.newMessage.group_id === variables.groupId;
         },
@@ -2328,13 +2300,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MessageResolver.prototype, "newMessage", null);
 __decorate([
-    (0, graphql_1.Subscription)(() => src_1.User),
+    (0, graphql_1.Subscription)(() => schema_1.User),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], MessageResolver.prototype, "newUser", null);
 __decorate([
-    (0, graphql_1.Subscription)(() => src_1.User, {
+    (0, graphql_1.Subscription)(() => schema_1.User, {
         filter: (payload, variables) => {
             return payload.newMessage.receiverMail === variables.receiverMail;
         },
@@ -2345,8 +2317,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MessageResolver.prototype, "currentUserTyping", null);
 exports.MessageResolver = MessageResolver = __decorate([
-    (0, graphql_1.Resolver)(() => src_1.User),
-    __metadata("design:paramtypes", [typeof (_a = typeof message_service_1.MessageService !== "undefined" && message_service_1.MessageService) === "function" ? _a : Object, typeof (_b = typeof group_service_1.GroupService !== "undefined" && group_service_1.GroupService) === "function" ? _b : Object, typeof (_c = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _c : Object, typeof (_d = typeof src_2.AwsService !== "undefined" && src_2.AwsService) === "function" ? _d : Object])
+    (0, graphql_1.Resolver)(() => schema_1.User),
+    __metadata("design:paramtypes", [typeof (_a = typeof message_service_1.MessageService !== "undefined" && message_service_1.MessageService) === "function" ? _a : Object, typeof (_b = typeof group_service_1.GroupService !== "undefined" && group_service_1.GroupService) === "function" ? _b : Object, typeof (_c = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _c : Object, typeof (_d = typeof aws_service_1.AwsService !== "undefined" && aws_service_1.AwsService) === "function" ? _d : Object])
 ], MessageResolver);
 
 
@@ -2376,8 +2348,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UsersMessagesResolver = void 0;
 const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
 const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+const schema_1 = __webpack_require__(/*! src/common/schema */ "./src/common/schema/index.ts");
 let UsersMessagesResolver = class UsersMessagesResolver {
     constructor(messageModel) {
         this.messageModel = messageModel;
@@ -2385,8 +2357,8 @@ let UsersMessagesResolver = class UsersMessagesResolver {
 };
 exports.UsersMessagesResolver = UsersMessagesResolver;
 exports.UsersMessagesResolver = UsersMessagesResolver = __decorate([
-    (0, graphql_1.Resolver)(() => src_1.User),
-    __param(0, (0, mongoose_1.InjectModel)(src_1.Message.name)),
+    (0, graphql_1.Resolver)(() => schema_1.User),
+    __param(0, (0, mongoose_1.InjectModel)(schema_1.Message.name)),
     __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object])
 ], UsersMessagesResolver);
 
@@ -2568,7 +2540,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UserHelper = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
+const schema_1 = __webpack_require__(/*! ../../common/schema */ "./src/common/schema/index.ts");
 const libphonenumber_js_1 = __webpack_require__(/*! libphonenumber-js */ "libphonenumber-js");
 const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
 let UserHelper = class UserHelper {
@@ -2620,9 +2592,9 @@ let UserHelper = class UserHelper {
 exports.UserHelper = UserHelper;
 exports.UserHelper = UserHelper = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(src_1.User.name)),
-    __param(1, (0, mongoose_1.InjectModel)(src_1.Group.name)),
-    __param(2, (0, mongoose_1.InjectModel)(src_1.GroupMember.name)),
+    __param(0, (0, mongoose_1.InjectModel)(schema_1.User.name)),
+    __param(1, (0, mongoose_1.InjectModel)(schema_1.Group.name)),
+    __param(2, (0, mongoose_1.InjectModel)(schema_1.GroupMember.name)),
     __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, typeof (_b = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _b : Object, typeof (_c = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _c : Object])
 ], UserHelper);
 
@@ -2687,7 +2659,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UserResolver = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
+const schema_1 = __webpack_require__(/*! ../common/schema */ "./src/common/schema/index.ts");
 const jwt_auth_guard_1 = __webpack_require__(/*! src/common/auth/guards/jwt-auth.guard */ "./src/common/auth/guards/jwt-auth.guard.ts");
 const current_user_decorator_1 = __webpack_require__(/*! src/common/decorators/current-user.decorator */ "./src/common/decorators/current-user.decorator.ts");
 const user_service_1 = __webpack_require__(/*! ./user.service */ "./src/user/user.service.ts");
@@ -2709,32 +2681,32 @@ let UserResolver = class UserResolver {
 exports.UserResolver = UserResolver;
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Query)(() => src_1.User),
+    (0, graphql_1.Query)(() => schema_1.User),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_b = typeof src_1.User !== "undefined" && src_1.User) === "function" ? _b : Object]),
+    __metadata("design:paramtypes", [typeof (_b = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _b : Object]),
     __metadata("design:returntype", void 0)
 ], UserResolver.prototype, "getCurrentUser", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Mutation)(() => src_1.User),
+    (0, graphql_1.Mutation)(() => schema_1.User),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, graphql_1.Args)('updateUserInput')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_c = typeof src_1.User !== "undefined" && src_1.User) === "function" ? _c : Object, typeof (_d = typeof dto_1.UpdateUserInput !== "undefined" && dto_1.UpdateUserInput) === "function" ? _d : Object]),
+    __metadata("design:paramtypes", [typeof (_c = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _c : Object, typeof (_d = typeof dto_1.UpdateUserInput !== "undefined" && dto_1.UpdateUserInput) === "function" ? _d : Object]),
     __metadata("design:returntype", void 0)
 ], UserResolver.prototype, "updateProfile", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Mutation)(() => src_1.GroupMember),
+    (0, graphql_1.Mutation)(() => schema_1.GroupMember),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, graphql_1.Args)('inviteSomeoneInput')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_e = typeof src_1.User !== "undefined" && src_1.User) === "function" ? _e : Object, typeof (_f = typeof dto_1.InviteSomeoneInput !== "undefined" && dto_1.InviteSomeoneInput) === "function" ? _f : Object]),
+    __metadata("design:paramtypes", [typeof (_e = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _e : Object, typeof (_f = typeof dto_1.InviteSomeoneInput !== "undefined" && dto_1.InviteSomeoneInput) === "function" ? _f : Object]),
     __metadata("design:returntype", void 0)
 ], UserResolver.prototype, "inviteSomeoneToGroup", null);
 exports.UserResolver = UserResolver = __decorate([
-    (0, graphql_1.Resolver)(() => src_1.User),
+    (0, graphql_1.Resolver)(() => schema_1.User),
     __metadata("design:paramtypes", [typeof (_a = typeof user_service_1.UserService !== "undefined" && user_service_1.UserService) === "function" ? _a : Object])
 ], UserResolver);
 
@@ -2765,9 +2737,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UserService = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-const src_1 = __webpack_require__(/*! libs/schema/src */ "./libs/schema/src/index.ts");
 const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
 const auth_service_1 = __webpack_require__(/*! src/common/auth/services/auth.service */ "./src/common/auth/services/auth.service.ts");
+const schema_1 = __webpack_require__(/*! ../common/schema */ "./src/common/schema/index.ts");
 const user_helper_1 = __webpack_require__(/*! ./helpers/user.helper */ "./src/user/helpers/user.helper.ts");
 let UserService = class UserService {
     constructor(userModel, userHelper, messageModel, groupModel, groupMemberModel, authService) {
@@ -2814,10 +2786,10 @@ let UserService = class UserService {
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(src_1.User.name)),
-    __param(2, (0, mongoose_1.InjectModel)(src_1.Message.name)),
-    __param(3, (0, mongoose_1.InjectModel)(src_1.Group.name)),
-    __param(4, (0, mongoose_1.InjectModel)(src_1.GroupMember.name)),
+    __param(0, (0, mongoose_1.InjectModel)(schema_1.User.name)),
+    __param(2, (0, mongoose_1.InjectModel)(schema_1.Message.name)),
+    __param(3, (0, mongoose_1.InjectModel)(schema_1.Group.name)),
+    __param(4, (0, mongoose_1.InjectModel)(schema_1.GroupMember.name)),
     __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, typeof (_b = typeof user_helper_1.UserHelper !== "undefined" && user_helper_1.UserHelper) === "function" ? _b : Object, typeof (_c = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _c : Object, typeof (_d = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _d : Object, typeof (_e = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _e : Object, typeof (_f = typeof auth_service_1.AuthService !== "undefined" && auth_service_1.AuthService) === "function" ? _f : Object])
 ], UserService);
 

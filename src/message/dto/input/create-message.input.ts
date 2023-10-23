@@ -1,5 +1,4 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { FileUpload, GraphQLUpload } from 'graphql-upload-ts';
 import { MESSAGE_TYPE } from 'src/common/constants';
 
 @InputType()

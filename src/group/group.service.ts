@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Group, GroupMember, Message, User } from 'libs/schema/src';
+import { Group, GroupMember, Message, User } from '../common/schema';
 import { Model } from 'mongoose';
 import { AuthService } from 'src/common/auth/services/auth.service';
 import { GroupChatInput } from './dto';

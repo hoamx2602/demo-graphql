@@ -3,7 +3,7 @@ import { GraphqlModule } from './graphql.module';
 import { ConfigModule } from './config.module';
 import { MongoModule } from './mongo.module';
 import { AuthModule } from './auth.module';
-import { AwsModule } from 'libs/aws/src';
+import { AwsModule } from './aws.module';
 
 @Module({
   imports: [ConfigModule, GraphqlModule, MongoModule, AuthModule, AwsModule],

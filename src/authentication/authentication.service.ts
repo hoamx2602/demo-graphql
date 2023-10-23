@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Group, Message, User } from 'libs/schema/src';
+import { Group, Message, User } from '../common/schema';
 import { Model } from 'mongoose';
 
 import { hash } from 'bcrypt';

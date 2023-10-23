@@ -6,7 +6,8 @@ import { Payload } from '../dto/payload.dto';
 
 import { ConfigService } from '@nestjs/config';
 import { signJwt } from '../../utils/jwt.util';
-import { User } from 'libs/schema/src';
+import { User } from 'src/common/schema';
+
 @Injectable()
 export class AuthService {
   constructor(

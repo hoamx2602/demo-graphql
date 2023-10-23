@@ -1,12 +1,8 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Group, GroupMember, Message, User } from 'libs/schema/src';
 import { Model } from 'mongoose';
 import { AuthService } from 'src/common/auth/services/auth.service';
+import { Group, GroupMember, Message, User } from '../common/schema';
 import { InviteSomeoneInput, UpdateUserInput } from './dto';
 import { UserHelper } from './helpers/user.helper';
 

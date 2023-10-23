@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Group, GroupMember, User } from 'libs/schema/src';
+import { Group, GroupMember, User } from '../common/schema';
 import { JwtAuthGuard } from 'src/common/auth/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { UserService } from './user.service';

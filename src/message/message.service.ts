@@ -1,17 +1,17 @@
-import { AwsService } from 'libs/aws/src';
 import {
   BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Group, GroupMember, Message, User } from 'libs/schema/src';
+import { Group, GroupMember, Message, User } from '../common/schema';
 import { FileUpload } from 'graphql-upload-ts';
 import { Model } from 'mongoose';
 import { AuthService } from 'src/common/auth/services/auth.service';
 
 import { CreateMessageInput } from './dto/input/create-message.input';
 import { AddNewMessageInput } from './dto';
+import { AwsService } from 'src/common/aws/aws.service';
 
 @Injectable()
 export class MessageService {

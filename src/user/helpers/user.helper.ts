@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Group, GroupMember, User } from 'libs/schema/src';
+import { Group, GroupMember, User } from '../../common/schema';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 import { Model } from 'mongoose';
 import { COUNTRY_CODE } from 'src/common/constants';

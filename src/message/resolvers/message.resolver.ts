@@ -1,19 +1,15 @@
 import { UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
-import { Group, Message, User } from 'libs/schema/src';
+import { Args, Mutation, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { FileUpload, GraphQLUpload } from 'graphql-upload-ts';
 import { JwtAuthGuard } from 'src/common/auth/guards/jwt-auth.guard';
+import { AwsService } from 'src/common/aws/aws.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { Message, User } from 'src/common/schema';
 import { GroupService } from 'src/group/group.service';
+import { AddNewMessageInput, UserTypingInput } from '../dto/input';
 import { MessageService } from '../message.service';
-import {
-  AddNewMessageInput,
-  CreateMessageInput,
-  UserTypingInput,
-} from '../dto/input';
-import { Upload, GraphQLUpload, FileUpload } from 'graphql-upload-ts';
-import { AwsService } from 'libs/aws/src';
 
 const pubSub = new PubSub();
 

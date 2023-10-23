@@ -6,7 +6,7 @@ import { MessageService } from 'src/message/message.service';
 import { Payload } from '../dto/payload.dto';
 
 import { publicKey } from 'src/common/utils/jwt.util';
-import { User } from 'libs/schema/src';
+import { User } from 'src/common/schema';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {

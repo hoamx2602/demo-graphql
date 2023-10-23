@@ -10,7 +10,7 @@ import {
   UserSchema,
   GroupMember,
   GroupMemberSchema,
-} from 'libs/schema/src';
+} from '../common/schema';
 
 @Module({
   imports: [

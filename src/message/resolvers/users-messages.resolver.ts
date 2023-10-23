@@ -1,7 +1,8 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { InjectModel } from '@nestjs/mongoose';
-import { Message, User } from 'libs/schema/src';
+
 import { Model } from 'mongoose';
+import { Message, User } from 'src/common/schema';
 
 @Resolver(() => User)
 export class UsersMessagesResolver {

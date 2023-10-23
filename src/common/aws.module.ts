@@ -1,9 +1,8 @@
-import { AwsService } from 'libs/aws/src';
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { AwsService } from './aws/aws.service';
 
 @Module({
-  imports: [AwsService],
-  exports: [MongooseModule, AwsService],
+  providers: [AwsService],
+  exports: [AwsService],
 })
 export class AwsModule {}
