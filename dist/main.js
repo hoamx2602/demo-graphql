@@ -25,9 +25,9 @@ const app_controller_1 = __webpack_require__(4);
 const app_service_1 = __webpack_require__(5);
 const message_module_1 = __webpack_require__(6);
 const common_module_1 = __webpack_require__(27);
-const group_module_1 = __webpack_require__(49);
-const authentication_module_1 = __webpack_require__(55);
-const user_module_1 = __webpack_require__(64);
+const group_module_1 = __webpack_require__(50);
+const authentication_module_1 = __webpack_require__(56);
+const user_module_1 = __webpack_require__(65);
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -133,8 +133,8 @@ exports.MessageModule = void 0;
 const common_1 = __webpack_require__(3);
 const message_service_1 = __webpack_require__(7);
 const common_module_1 = __webpack_require__(27);
-const resolvers_1 = __webpack_require__(37);
-const group_service_1 = __webpack_require__(43);
+const resolvers_1 = __webpack_require__(38);
+const group_service_1 = __webpack_require__(44);
 let MessageModule = class MessageModule {
 };
 exports.MessageModule = MessageModule;
@@ -938,10 +938,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommonModule = void 0;
 const common_1 = __webpack_require__(3);
 const graphql_module_1 = __webpack_require__(28);
-const config_module_1 = __webpack_require__(30);
-const mongo_module_1 = __webpack_require__(31);
-const auth_module_1 = __webpack_require__(32);
-const aws_module_1 = __webpack_require__(36);
+const config_module_1 = __webpack_require__(31);
+const mongo_module_1 = __webpack_require__(32);
+const auth_module_1 = __webpack_require__(33);
+const aws_module_1 = __webpack_require__(37);
 let CommonModule = class CommonModule {
 };
 exports.CommonModule = CommonModule;
@@ -969,6 +969,7 @@ exports.GraphqlModule = void 0;
 const apollo_1 = __webpack_require__(29);
 const common_1 = __webpack_require__(3);
 const graphql_1 = __webpack_require__(11);
+const path_1 = __webpack_require__(30);
 let GraphqlModule = class GraphqlModule {
 };
 exports.GraphqlModule = GraphqlModule;
@@ -976,7 +977,7 @@ exports.GraphqlModule = GraphqlModule = __decorate([
     (0, common_1.Module)({
         imports: [
             graphql_1.GraphQLModule.forRoot({
-                autoSchemaFile: './schema.gql',
+                autoSchemaFile: (0, path_1.join)('/tmp', 'schema.gql'),
                 driver: apollo_1.ApolloDriver,
                 playground: true,
                 installSubscriptionHandlers: true,
@@ -994,6 +995,12 @@ module.exports = require("@nestjs/apollo");
 
 /***/ }),
 /* 30 */
+/***/ ((module) => {
+
+module.exports = require("path");
+
+/***/ }),
+/* 31 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1023,7 +1030,7 @@ exports.ConfigModule = ConfigModule = __decorate([
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1076,7 +1083,7 @@ exports.MongoModule = MongoModule = __decorate([
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1089,12 +1096,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AuthModule = void 0;
 const common_1 = __webpack_require__(3);
-const config_module_1 = __webpack_require__(30);
+const config_module_1 = __webpack_require__(31);
 const message_module_1 = __webpack_require__(6);
 const jwt_1 = __webpack_require__(20);
 const config_1 = __webpack_require__(22);
 const auth_service_1 = __webpack_require__(19);
-const jwt_strategy_service_1 = __webpack_require__(33);
+const jwt_strategy_service_1 = __webpack_require__(34);
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -1118,7 +1125,7 @@ exports.AuthModule = AuthModule = __decorate([
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1134,8 +1141,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.JwtStrategy = void 0;
-const passport_1 = __webpack_require__(34);
-const passport_jwt_1 = __webpack_require__(35);
+const passport_1 = __webpack_require__(35);
+const passport_jwt_1 = __webpack_require__(36);
 const config_1 = __webpack_require__(22);
 const common_1 = __webpack_require__(3);
 const message_service_1 = __webpack_require__(7);
@@ -1163,19 +1170,19 @@ exports.JwtStrategy = JwtStrategy = __decorate([
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ ((module) => {
 
 module.exports = require("@nestjs/passport");
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ ((module) => {
 
 module.exports = require("passport-jwt");
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1201,7 +1208,7 @@ exports.AwsModule = AwsModule = __decorate([
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1220,12 +1227,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(38), exports);
-__exportStar(__webpack_require__(48), exports);
+__exportStar(__webpack_require__(39), exports);
+__exportStar(__webpack_require__(49), exports);
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1247,14 +1254,14 @@ exports.MessageResolver = void 0;
 const common_1 = __webpack_require__(3);
 const config_1 = __webpack_require__(22);
 const graphql_1 = __webpack_require__(11);
-const graphql_subscriptions_1 = __webpack_require__(39);
-const graphql_upload_ts_1 = __webpack_require__(40);
-const jwt_auth_guard_1 = __webpack_require__(41);
+const graphql_subscriptions_1 = __webpack_require__(40);
+const graphql_upload_ts_1 = __webpack_require__(41);
+const jwt_auth_guard_1 = __webpack_require__(42);
 const aws_service_1 = __webpack_require__(25);
-const current_user_decorator_1 = __webpack_require__(42);
+const current_user_decorator_1 = __webpack_require__(43);
 const schema_1 = __webpack_require__(9);
-const group_service_1 = __webpack_require__(43);
-const input_1 = __webpack_require__(44);
+const group_service_1 = __webpack_require__(44);
+const input_1 = __webpack_require__(45);
 const message_service_1 = __webpack_require__(7);
 const pubSub = new graphql_subscriptions_1.PubSub();
 let MessageResolver = class MessageResolver {
@@ -1352,19 +1359,19 @@ exports.MessageResolver = MessageResolver = __decorate([
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ ((module) => {
 
 module.exports = require("graphql-subscriptions");
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ ((module) => {
 
 module.exports = require("graphql-upload-ts");
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1377,7 +1384,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.JwtAuthGuard = void 0;
 const common_1 = __webpack_require__(3);
-const passport_1 = __webpack_require__(34);
+const passport_1 = __webpack_require__(35);
 const graphql_1 = __webpack_require__(11);
 let JwtAuthGuard = class JwtAuthGuard extends (0, passport_1.AuthGuard)('jwt') {
     getRequest(context) {
@@ -1392,7 +1399,7 @@ exports.JwtAuthGuard = JwtAuthGuard = __decorate([
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1407,7 +1414,7 @@ exports.CurrentUser = (0, common_1.createParamDecorator)((data, ctx) => {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1491,7 +1498,7 @@ exports.GroupService = GroupService = __decorate([
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1510,13 +1517,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(45), exports);
 __exportStar(__webpack_require__(46), exports);
 __exportStar(__webpack_require__(47), exports);
+__exportStar(__webpack_require__(48), exports);
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1549,7 +1556,7 @@ exports.UserTypingInput = UserTypingInput = __decorate([
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1599,7 +1606,7 @@ exports.CreateMessageInput = CreateMessageInput = __decorate([
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1649,7 +1656,7 @@ exports.AddNewMessageInput = AddNewMessageInput = __decorate([
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1686,7 +1693,7 @@ exports.UsersMessagesResolver = UsersMessagesResolver = __decorate([
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1700,9 +1707,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GroupModule = void 0;
 const common_1 = __webpack_require__(3);
 const common_module_1 = __webpack_require__(27);
-const group_resolver_1 = __webpack_require__(50);
-const group_service_1 = __webpack_require__(43);
-const group_user_resolver_1 = __webpack_require__(54);
+const group_resolver_1 = __webpack_require__(51);
+const group_service_1 = __webpack_require__(44);
+const group_user_resolver_1 = __webpack_require__(55);
 let GroupModule = class GroupModule {
 };
 exports.GroupModule = GroupModule;
@@ -1716,7 +1723,7 @@ exports.GroupModule = GroupModule = __decorate([
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1737,11 +1744,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GroupResolver = void 0;
 const common_1 = __webpack_require__(3);
 const graphql_1 = __webpack_require__(11);
-const jwt_auth_guard_1 = __webpack_require__(41);
-const current_user_decorator_1 = __webpack_require__(42);
+const jwt_auth_guard_1 = __webpack_require__(42);
+const current_user_decorator_1 = __webpack_require__(43);
 const schema_1 = __webpack_require__(9);
-const dto_1 = __webpack_require__(51);
-const group_service_1 = __webpack_require__(43);
+const dto_1 = __webpack_require__(52);
+const group_service_1 = __webpack_require__(44);
 let GroupResolver = class GroupResolver {
     constructor(groupService) {
         this.groupService = groupService;
@@ -1778,29 +1785,6 @@ exports.GroupResolver = GroupResolver = __decorate([
 
 
 /***/ }),
-/* 51 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(52), exports);
-
-
-/***/ }),
 /* 52 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -1825,6 +1809,29 @@ __exportStar(__webpack_require__(53), exports);
 
 /***/ }),
 /* 53 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(54), exports);
+
+
+/***/ }),
+/* 54 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1857,7 +1864,7 @@ exports.GroupChatInput = GroupChatInput = __decorate([
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1916,7 +1923,7 @@ exports.GroupUserResolver = GroupUserResolver = __decorate([
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1930,8 +1937,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AuthenticationModule = void 0;
 const common_1 = __webpack_require__(3);
 const common_module_1 = __webpack_require__(27);
-const authentication_service_1 = __webpack_require__(56);
-const authenticaton_resolver_1 = __webpack_require__(57);
+const authentication_service_1 = __webpack_require__(57);
+const authenticaton_resolver_1 = __webpack_require__(58);
 let AuthenticationModule = class AuthenticationModule {
 };
 exports.AuthenticationModule = AuthenticationModule;
@@ -1945,7 +1952,7 @@ exports.AuthenticationModule = AuthenticationModule = __decorate([
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2010,7 +2017,7 @@ exports.AuthenticationService = AuthenticationService = __decorate([
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2032,11 +2039,11 @@ exports.AuthenticationResolver = void 0;
 const graphql_1 = __webpack_require__(11);
 const config_1 = __webpack_require__(22);
 const mongoose_1 = __webpack_require__(8);
-const graphql_subscriptions_1 = __webpack_require__(39);
+const graphql_subscriptions_1 = __webpack_require__(40);
 const mongoose_2 = __webpack_require__(12);
 const schema_1 = __webpack_require__(9);
-const authentication_service_1 = __webpack_require__(56);
-const dto_1 = __webpack_require__(58);
+const authentication_service_1 = __webpack_require__(57);
+const dto_1 = __webpack_require__(59);
 const pubSub = new graphql_subscriptions_1.PubSub();
 let AuthenticationResolver = class AuthenticationResolver {
     constructor(authenticationService, configService, userModel) {
@@ -2079,30 +2086,6 @@ exports.AuthenticationResolver = AuthenticationResolver = __decorate([
 
 
 /***/ }),
-/* 58 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(59), exports);
-__exportStar(__webpack_require__(62), exports);
-
-
-/***/ }),
 /* 59 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -2123,11 +2106,35 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(60), exports);
-__exportStar(__webpack_require__(61), exports);
+__exportStar(__webpack_require__(63), exports);
 
 
 /***/ }),
 /* 60 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(61), exports);
+__exportStar(__webpack_require__(62), exports);
+
+
+/***/ }),
+/* 61 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2178,7 +2185,7 @@ exports.SignUpUserInput = SignUpUserInput = __decorate([
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2211,7 +2218,7 @@ exports.LoginUserInput = LoginUserInput = __decorate([
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2230,11 +2237,11 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(63), exports);
+__exportStar(__webpack_require__(64), exports);
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2263,7 +2270,7 @@ exports.LoginUserOutput = LoginUserOutput = __decorate([
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2277,9 +2284,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UserModule = void 0;
 const common_1 = __webpack_require__(3);
 const common_module_1 = __webpack_require__(27);
-const user_resolver_1 = __webpack_require__(65);
-const user_service_1 = __webpack_require__(66);
-const user_helper_1 = __webpack_require__(67);
+const user_resolver_1 = __webpack_require__(66);
+const user_service_1 = __webpack_require__(67);
+const user_helper_1 = __webpack_require__(68);
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
@@ -2293,7 +2300,7 @@ exports.UserModule = UserModule = __decorate([
 
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2315,10 +2322,10 @@ exports.UserResolver = void 0;
 const common_1 = __webpack_require__(3);
 const graphql_1 = __webpack_require__(11);
 const schema_1 = __webpack_require__(9);
-const jwt_auth_guard_1 = __webpack_require__(41);
-const current_user_decorator_1 = __webpack_require__(42);
-const user_service_1 = __webpack_require__(66);
-const dto_1 = __webpack_require__(69);
+const jwt_auth_guard_1 = __webpack_require__(42);
+const current_user_decorator_1 = __webpack_require__(43);
+const user_service_1 = __webpack_require__(67);
+const dto_1 = __webpack_require__(70);
 let UserResolver = class UserResolver {
     constructor(userService) {
         this.userService = userService;
@@ -2367,7 +2374,7 @@ exports.UserResolver = UserResolver = __decorate([
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2391,7 +2398,7 @@ const mongoose_1 = __webpack_require__(8);
 const mongoose_2 = __webpack_require__(12);
 const auth_service_1 = __webpack_require__(19);
 const schema_1 = __webpack_require__(9);
-const user_helper_1 = __webpack_require__(67);
+const user_helper_1 = __webpack_require__(68);
 let UserService = class UserService {
     constructor(userModel, userHelper, messageModel, groupModel, groupMemberModel, authService) {
         this.userModel = userModel;
@@ -2446,7 +2453,7 @@ exports.UserService = UserService = __decorate([
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2468,7 +2475,7 @@ exports.UserHelper = void 0;
 const common_1 = __webpack_require__(3);
 const mongoose_1 = __webpack_require__(8);
 const schema_1 = __webpack_require__(9);
-const libphonenumber_js_1 = __webpack_require__(68);
+const libphonenumber_js_1 = __webpack_require__(69);
 const mongoose_2 = __webpack_require__(12);
 let UserHelper = class UserHelper {
     constructor(userModel, groupModel, groupMemberModel) {
@@ -2527,33 +2534,10 @@ exports.UserHelper = UserHelper = __decorate([
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ ((module) => {
 
 module.exports = require("libphonenumber-js");
-
-/***/ }),
-/* 69 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(70), exports);
-
 
 /***/ }),
 /* 70 */
@@ -2576,11 +2560,34 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(71), exports);
-__exportStar(__webpack_require__(72), exports);
 
 
 /***/ }),
 /* 71 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(72), exports);
+__exportStar(__webpack_require__(73), exports);
+
+
+/***/ }),
+/* 72 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2631,7 +2638,7 @@ exports.UpdateUserInput = UpdateUserInput = __decorate([
 
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2703,7 +2710,7 @@ var exports = __webpack_exports__;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __webpack_require__(1);
 const app_module_1 = __webpack_require__(2);
-const graphql_upload_ts_1 = __webpack_require__(40);
+const graphql_upload_ts_1 = __webpack_require__(41);
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const options = {
