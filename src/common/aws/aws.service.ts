@@ -10,7 +10,7 @@ export class AwsService {
   constructor(private readonly configService: ConfigService) {
     this.client = new S3({
       accessKeyId: configService.get('AWS_ACCESS_KEY_ID'),
-      secretAccessKey: configService.get('AWS_SECRET_KEY_ID_ID'),
+      secretAccessKey: configService.get('AWS_SECRET_KEY_ID'),
       region: configService.get('AWS_REGION'),
     });
     this.bucket = configService.get('AWS_BUCKET_NAME');
@@ -45,6 +45,7 @@ export class AwsService {
       const url = await this.client.upload(params).promise();
       return url;
     } catch (error) {
+      console.log(error);
       throw new Error(`Error uploading file to S3: ${error.message}`);
     }
   }

@@ -1,16 +1,17 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { join } from 'path';
-
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      autoSchemaFile: join('/tmp', 'schema.gql'),
-      // autoSchemaFile: './schema.gql',
+      // need it when deploy to vercel
+      // autoSchemaFile: join('/tmp', 'schema.gql'),
+      autoSchemaFile: './schema.gql',
       driver: ApolloDriver,
-      playground: true,
+      playground: false,
       installSubscriptionHandlers: true,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
       // Use for set cookie
       // context: ({ req, res }) => ({ req, res }),
     }),

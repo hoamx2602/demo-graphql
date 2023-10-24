@@ -59,7 +59,7 @@ export class MessageResolver {
     @Args('media', { type: () => GraphQLUpload, nullable: true })
     media: FileUpload | null,
   ) {
-    console.log(media);
+    console.log('media', media);
     if (media) {
       const path = await this.messageService.uploadMediaMessage(media);
       const newMessage = await this.messageService.createNewMessage(
