@@ -2,36 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type message {
-  _id: String!
-
-  """Content of a message """
-  content: String
-
-  """Group id. If chat is 1:1 then group_id is null"""
-  group_id: String
-
-  """Message parent id use when a user reply a message of another user"""
-  message_parent_id: String
-
-  """Sender id"""
-  sender_id: String!
-
-  """Receiver id. If chat in a group then recipient_id is null"""
-  recipient_id: String
-
-  """Message type"""
-  message_type: String!
-
-  """Message reply type"""
-  reply_type: String!
-
-  """Media url. If message type is image/video"""
-  media_url: String!
-  created_at: Float!
-  updated_at: Float!
-}
-
 type group {
   _id: String!
 
@@ -78,6 +48,40 @@ type user {
   updated_at: Float!
 }
 
+type message {
+  _id: String!
+
+  """Content of a message """
+  content: String
+
+  """Group id. If chat is 1:1 then group_id is null"""
+  group_id: String
+
+  """Message parent id use when a user reply a message of another user"""
+  message_parent_id: String
+
+  """Sender id"""
+  sender_id: String!
+
+  """Sender information"""
+  sender: user!
+
+  """Receiver id. If chat in a group then recipient_id is null"""
+  recipient_id: String
+
+  """Message type"""
+  message_type: String!
+
+  """Message reply type"""
+  reply_type: String!
+
+  """Media url. If message type is image/video"""
+  media_url: String!
+  created_at: Float!
+  is_update: Boolean!
+  updated_at: Float!
+}
+
 type group_member {
   _id: String!
 
@@ -99,11 +103,36 @@ type LoginUserOutput {
 }
 
 type Query {
+  getAllMessageGroup(getMessageGroupInput: GetMessageGroupInput!): [message!]!
+  getMessagesOneOne(getMessageOneOneInput: GetMessageOneOneInput!): [message!]!
   getAllGroups: [group!]!
   getCurrentUser: user!
 }
 
+input GetMessageGroupInput {
+  """Current page get message"""
+  page: Float = 1
+
+  """Max message return each time"""
+  limit: Float = 10
+
+  """GroupId"""
+  groupId: String
+}
+
+input GetMessageOneOneInput {
+  """Current page get message"""
+  page: Float = 1
+
+  """Max message return each time"""
+  limit: Float = 10
+
+  """Friend Id of current user"""
+  friendId: String
+}
+
 type Mutation {
+  updateMessageOneOne(updateMessageInput: UpdateMessageInput!): [message!]!
   addNewMessage(addNewMessageInput: AddNewMessageInput!, media: Upload): message!
   userTyping(userTypingInput: UserTypingInput!): Boolean!
   createGroupChat(groupChatInput: GroupChatInput!): group!
@@ -111,6 +140,14 @@ type Mutation {
   login(loginUserInput: LoginUserInput!): LoginUserOutput!
   updateProfile(updateUserInput: UpdateUserInput!): user!
   inviteSomeoneToGroup(inviteSomeoneInput: InviteSomeoneInput!): group_member!
+}
+
+input UpdateMessageInput {
+  """Content to update message"""
+  content: String
+
+  """Message Id use for update"""
+  messageId: String
 }
 
 input AddNewMessageInput {

@@ -1226,13 +1226,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MessageSchema = exports.Message = void 0;
 const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
 const mongoose_1 = __webpack_require__(/*! mongoose */ "mongoose");
 const mongoose_2 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
 const constants_1 = __webpack_require__(/*! src/common/constants */ "./src/common/constants/index.ts");
+const user_entity_1 = __webpack_require__(/*! ./user.entity */ "./src/common/schema/user.entity.ts");
 let Message = class Message {
 };
 exports.Message = Message;
@@ -1267,6 +1268,10 @@ __decorate([
     __metadata("design:type", String)
 ], Message.prototype, "sender_id", void 0);
 __decorate([
+    (0, graphql_1.Field)(() => user_entity_1.User, { description: 'Sender information' }),
+    __metadata("design:type", typeof (_c = typeof user_entity_1.User !== "undefined" && user_entity_1.User) === "function" ? _c : Object)
+], Message.prototype, "sender", void 0);
+__decorate([
     (0, mongoose_2.Prop)(),
     (0, graphql_1.Field)(() => String, {
         description: 'Receiver id. If chat in a group then recipient_id is null',
@@ -1277,12 +1282,12 @@ __decorate([
 __decorate([
     (0, mongoose_2.Prop)({ type: 'string' }),
     (0, graphql_1.Field)(() => String, { description: 'Message type' }),
-    __metadata("design:type", typeof (_c = typeof constants_1.MESSAGE_TYPE !== "undefined" && constants_1.MESSAGE_TYPE) === "function" ? _c : Object)
+    __metadata("design:type", typeof (_d = typeof constants_1.MESSAGE_TYPE !== "undefined" && constants_1.MESSAGE_TYPE) === "function" ? _d : Object)
 ], Message.prototype, "message_type", void 0);
 __decorate([
     (0, mongoose_2.Prop)({ type: 'string' }),
     (0, graphql_1.Field)(() => String, { description: 'Message reply type' }),
-    __metadata("design:type", typeof (_d = typeof constants_1.REPLY_TYPE !== "undefined" && constants_1.REPLY_TYPE) === "function" ? _d : Object)
+    __metadata("design:type", typeof (_e = typeof constants_1.REPLY_TYPE !== "undefined" && constants_1.REPLY_TYPE) === "function" ? _e : Object)
 ], Message.prototype, "reply_type", void 0);
 __decorate([
     (0, mongoose_2.Prop)(),
@@ -1296,6 +1301,11 @@ __decorate([
     (0, graphql_1.Field)(() => Number),
     __metadata("design:type", Number)
 ], Message.prototype, "created_at", void 0);
+__decorate([
+    (0, mongoose_2.Prop)({ type: 'boolean', default: false }),
+    (0, graphql_1.Field)(() => Boolean),
+    __metadata("design:type", Boolean)
+], Message.prototype, "is_update", void 0);
 __decorate([
     (0, mongoose_2.Prop)({ type: 'number', default: () => Date.now() }),
     (0, graphql_1.Field)(() => Number),
@@ -1930,6 +1940,77 @@ exports.CreateMessageInput = CreateMessageInput = __decorate([
 
 /***/ }),
 
+/***/ "./src/message/dto/input/get-message-group.input.ts":
+/*!**********************************************************!*\
+  !*** ./src/message/dto/input/get-message-group.input.ts ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetMessageGroupInput = void 0;
+const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
+const paginate_input_1 = __webpack_require__(/*! ./paginate.input */ "./src/message/dto/input/paginate.input.ts");
+let GetMessageGroupInput = class GetMessageGroupInput extends paginate_input_1.PaginateInput {
+};
+exports.GetMessageGroupInput = GetMessageGroupInput;
+__decorate([
+    (0, graphql_1.Field)(() => String, { description: 'GroupId', nullable: true }),
+    __metadata("design:type", String)
+], GetMessageGroupInput.prototype, "groupId", void 0);
+exports.GetMessageGroupInput = GetMessageGroupInput = __decorate([
+    (0, graphql_1.InputType)()
+], GetMessageGroupInput);
+
+
+/***/ }),
+
+/***/ "./src/message/dto/input/get-message-one-one.input.ts":
+/*!************************************************************!*\
+  !*** ./src/message/dto/input/get-message-one-one.input.ts ***!
+  \************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetMessageOneOneInput = void 0;
+const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
+const paginate_input_1 = __webpack_require__(/*! ./paginate.input */ "./src/message/dto/input/paginate.input.ts");
+let GetMessageOneOneInput = class GetMessageOneOneInput extends paginate_input_1.PaginateInput {
+};
+exports.GetMessageOneOneInput = GetMessageOneOneInput;
+__decorate([
+    (0, graphql_1.Field)(() => String, {
+        description: 'Friend Id of current user',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], GetMessageOneOneInput.prototype, "friendId", void 0);
+exports.GetMessageOneOneInput = GetMessageOneOneInput = __decorate([
+    (0, graphql_1.InputType)()
+], GetMessageOneOneInput);
+
+
+/***/ }),
+
 /***/ "./src/message/dto/input/index.ts":
 /*!****************************************!*\
   !*** ./src/message/dto/input/index.ts ***!
@@ -1955,6 +2036,99 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(/*! ./user-typing.input */ "./src/message/dto/input/user-typing.input.ts"), exports);
 __exportStar(__webpack_require__(/*! ./create-message.input */ "./src/message/dto/input/create-message.input.ts"), exports);
 __exportStar(__webpack_require__(/*! ./add-new-message.input */ "./src/message/dto/input/add-new-message.input.ts"), exports);
+__exportStar(__webpack_require__(/*! ./get-message-group.input */ "./src/message/dto/input/get-message-group.input.ts"), exports);
+__exportStar(__webpack_require__(/*! ./get-message-one-one.input */ "./src/message/dto/input/get-message-one-one.input.ts"), exports);
+__exportStar(__webpack_require__(/*! ./update-message.input */ "./src/message/dto/input/update-message.input.ts"), exports);
+
+
+/***/ }),
+
+/***/ "./src/message/dto/input/paginate.input.ts":
+/*!*************************************************!*\
+  !*** ./src/message/dto/input/paginate.input.ts ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PaginateInput = void 0;
+const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
+let PaginateInput = class PaginateInput {
+    constructor() {
+        this.page = 1;
+        this.limit = 10;
+    }
+};
+exports.PaginateInput = PaginateInput;
+__decorate([
+    (0, graphql_1.Field)(() => Number, {
+        description: 'Current page get message',
+        nullable: true,
+    }),
+    __metadata("design:type", Number)
+], PaginateInput.prototype, "page", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => Number, {
+        description: 'Max message return each time',
+        nullable: true,
+    }),
+    __metadata("design:type", Number)
+], PaginateInput.prototype, "limit", void 0);
+exports.PaginateInput = PaginateInput = __decorate([
+    (0, graphql_1.InputType)()
+], PaginateInput);
+
+
+/***/ }),
+
+/***/ "./src/message/dto/input/update-message.input.ts":
+/*!*******************************************************!*\
+  !*** ./src/message/dto/input/update-message.input.ts ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UpdateMessageInput = void 0;
+const graphql_1 = __webpack_require__(/*! @nestjs/graphql */ "@nestjs/graphql");
+let UpdateMessageInput = class UpdateMessageInput {
+};
+exports.UpdateMessageInput = UpdateMessageInput;
+__decorate([
+    (0, graphql_1.Field)(() => String, {
+        description: 'Content to update message',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], UpdateMessageInput.prototype, "content", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => String, {
+        description: 'Message Id use for update',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], UpdateMessageInput.prototype, "messageId", void 0);
+exports.UpdateMessageInput = UpdateMessageInput = __decorate([
+    (0, graphql_1.InputType)()
+], UpdateMessageInput);
 
 
 /***/ }),
@@ -2154,6 +2328,77 @@ let MessageService = class MessageService {
             throw new Error('Upload failed!');
         }
     }
+    async getAllMessageGroup(user, getMessageGroupInput) {
+        const { page, limit, groupId } = getMessageGroupInput;
+        const [isGroupExist, isGroupHasUser] = await Promise.all([
+            this.groupModel.findOne({
+                _id: groupId,
+            }),
+            this.groupMemberModel.findOne({
+                user_id: user._id,
+                group_id: groupId,
+            }),
+        ]);
+        if (!isGroupExist) {
+            throw new common_1.NotFoundException('This group isnt exist!');
+        }
+        if (!isGroupHasUser) {
+            throw new common_1.BadRequestException(`You cannot read the message of a group which is dont belong to you!`);
+        }
+        const groupMessages = await this.messageModel
+            .find({
+            group_id: groupId,
+        })
+            .sort({ created_at: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit);
+        const messageWithSender = await Promise.all(groupMessages.map(async (message) => {
+            const sender = await this.userModel.findById(message.sender_id);
+            return {
+                ...message.toObject(),
+                sender,
+            };
+        }));
+        return messageWithSender;
+    }
+    async getMessagesOneOne(user, getMessageOneOneInput) {
+        const { page, limit, friendId } = getMessageOneOneInput;
+        const isValidUser = await this.userModel.findOne({
+            _id: friendId,
+        });
+        if (!isValidUser) {
+            throw new common_1.NotFoundException('This friend isnt exist!');
+        }
+        const messages = await this.messageModel
+            .find({
+            group_id: null,
+            sender_id: user._id,
+            recipient_id: friendId,
+        })
+            .sort({ created_at: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit);
+        const messageWithSender = await Promise.all(messages.map(async (message) => {
+            const sender = await this.userModel.findById(message.sender_id);
+            return {
+                ...message.toObject(),
+                sender,
+            };
+        }));
+        return messageWithSender;
+    }
+    async updateMessageOneOne(user, updateMessageInput) {
+        const { content, messageId } = updateMessageInput;
+        const updatedMessage = await this.messageModel.findOneAndUpdate({
+            _id: messageId,
+            sender_id: user._id,
+        }, {
+            $set: {
+                content,
+            },
+        });
+        return updatedMessage;
+    }
 };
 exports.MessageService = MessageService;
 exports.MessageService = MessageService = __decorate([
@@ -2215,7 +2460,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e, _f, _g, _h;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MessageResolver = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
@@ -2237,6 +2482,18 @@ let MessageResolver = class MessageResolver {
         this.groupService = groupService;
         this.configService = configService;
         this.awsService = awsService;
+    }
+    async getAllMessageGroup(user, getMessageGroupInput) {
+        const groupMessage = await this.messageService.getAllMessageGroup(user, getMessageGroupInput);
+        return groupMessage;
+    }
+    async getMessagesOneOne(user, getMessageOneOneInput) {
+        const messageWithFriend = await this.messageService.getMessagesOneOne(user, getMessageOneOneInput);
+        return messageWithFriend;
+    }
+    async updateMessageOneOne(user, updateMessageInput) {
+        const updatedMessage = await this.messageService.updateMessageOneOne(user, updateMessageInput);
+        return updatedMessage;
     }
     async addNewMessage(user, addNewMessageInput, media) {
         console.log('media', media);
@@ -2276,19 +2533,46 @@ let MessageResolver = class MessageResolver {
 exports.MessageResolver = MessageResolver;
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, graphql_1.Query)(() => [schema_1.Message]),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, graphql_1.Args)('getMessageGroupInput')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_e = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _e : Object, typeof (_f = typeof input_1.GetMessageGroupInput !== "undefined" && input_1.GetMessageGroupInput) === "function" ? _f : Object]),
+    __metadata("design:returntype", Promise)
+], MessageResolver.prototype, "getAllMessageGroup", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, graphql_1.Query)(() => [schema_1.Message]),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, graphql_1.Args)('getMessageOneOneInput')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_g = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _g : Object, typeof (_h = typeof input_1.GetMessageOneOneInput !== "undefined" && input_1.GetMessageOneOneInput) === "function" ? _h : Object]),
+    __metadata("design:returntype", Promise)
+], MessageResolver.prototype, "getMessagesOneOne", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, graphql_1.Mutation)(() => [schema_1.Message]),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, graphql_1.Args)('updateMessageInput')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_j = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _j : Object, typeof (_k = typeof input_1.UpdateMessageInput !== "undefined" && input_1.UpdateMessageInput) === "function" ? _k : Object]),
+    __metadata("design:returntype", Promise)
+], MessageResolver.prototype, "updateMessageOneOne", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(() => schema_1.Message),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, graphql_1.Args)('addNewMessageInput')),
     __param(2, (0, graphql_1.Args)('media', { type: () => graphql_upload_ts_1.GraphQLUpload, nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_e = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _e : Object, typeof (_f = typeof input_1.AddNewMessageInput !== "undefined" && input_1.AddNewMessageInput) === "function" ? _f : Object, typeof (_g = typeof graphql_upload_ts_1.FileUpload !== "undefined" && graphql_upload_ts_1.FileUpload) === "function" ? _g : Object]),
+    __metadata("design:paramtypes", [typeof (_l = typeof schema_1.User !== "undefined" && schema_1.User) === "function" ? _l : Object, typeof (_m = typeof input_1.AddNewMessageInput !== "undefined" && input_1.AddNewMessageInput) === "function" ? _m : Object, typeof (_o = typeof graphql_upload_ts_1.FileUpload !== "undefined" && graphql_upload_ts_1.FileUpload) === "function" ? _o : Object]),
     __metadata("design:returntype", Promise)
 ], MessageResolver.prototype, "addNewMessage", null);
 __decorate([
     (0, graphql_1.Mutation)(() => Boolean),
     __param(0, (0, graphql_1.Args)('userTypingInput')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_h = typeof input_1.UserTypingInput !== "undefined" && input_1.UserTypingInput) === "function" ? _h : Object]),
+    __metadata("design:paramtypes", [typeof (_p = typeof input_1.UserTypingInput !== "undefined" && input_1.UserTypingInput) === "function" ? _p : Object]),
     __metadata("design:returntype", void 0)
 ], MessageResolver.prototype, "userTyping", null);
 __decorate([
@@ -2320,7 +2604,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MessageResolver.prototype, "currentUserTyping", null);
 exports.MessageResolver = MessageResolver = __decorate([
-    (0, graphql_1.Resolver)(() => schema_1.User),
+    (0, graphql_1.Resolver)(() => schema_1.Message),
     __metadata("design:paramtypes", [typeof (_a = typeof message_service_1.MessageService !== "undefined" && message_service_1.MessageService) === "function" ? _a : Object, typeof (_b = typeof group_service_1.GroupService !== "undefined" && group_service_1.GroupService) === "function" ? _b : Object, typeof (_c = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _c : Object, typeof (_d = typeof aws_service_1.AwsService !== "undefined" && aws_service_1.AwsService) === "function" ? _d : Object])
 ], MessageResolver);
 
@@ -3013,7 +3297,7 @@ async function bootstrap() {
     const options = {
         origin: '*',
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-        preflightContinue: false,
+        preflightContinue: true,
         optionsSuccessStatus: 204,
         credentials: true,
     };

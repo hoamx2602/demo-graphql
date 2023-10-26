@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Args, Mutation, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Mutation, Resolver, Subscription, Query } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { FileUpload, GraphQLUpload } from 'graphql-upload-ts';
 import { JwtAuthGuard } from 'src/common/auth/guards/jwt-auth.guard';
@@ -8,12 +8,18 @@ import { AwsService } from 'src/common/aws/aws.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { Message, User } from 'src/common/schema';
 import { GroupService } from 'src/group/group.service';
-import { AddNewMessageInput, UserTypingInput } from '../dto/input';
+import {
+  AddNewMessageInput,
+  GetMessageGroupInput,
+  GetMessageOneOneInput,
+  UpdateMessageInput,
+  UserTypingInput,
+} from '../dto/input';
 import { MessageService } from '../message.service';
 
 const pubSub = new PubSub();
 
-@Resolver(() => User)
+@Resolver(() => Message)
 export class MessageResolver {
   constructor(
     private readonly messageService: MessageService,
@@ -22,34 +28,44 @@ export class MessageResolver {
     private awsService: AwsService,
   ) {}
 
-  // @UseGuards(JwtAuthGuard)
-  // @Query(() => [User], { name: 'users' })
-  // findAll(@CurrentUser() user: User) {
-  //   console.log(user);
-  //   return this.messageService.findAll();
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Query(() => [Message])
+  async getAllMessageGroup(
+    @CurrentUser() user: User,
+    @Args('getMessageGroupInput') getMessageGroupInput: GetMessageGroupInput,
+  ) {
+    const groupMessage = await this.messageService.getAllMessageGroup(
+      user,
+      getMessageGroupInput,
+    );
+    return groupMessage;
+  }
 
-  // @Query(() => User, { name: 'user' })
-  // findOne(@Args('_id', { type: () => String }) id: string) {
-  //   return this.messageService.findOne(id);
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Query(() => [Message])
+  async getMessagesOneOne(
+    @CurrentUser() user: User,
+    @Args('getMessageOneOneInput') getMessageOneOneInput: GetMessageOneOneInput,
+  ) {
+    const messageWithFriend = await this.messageService.getMessagesOneOne(
+      user,
+      getMessageOneOneInput,
+    );
+    return messageWithFriend;
+  }
 
-  // @UseGuards(JwtAuthGuard)
-  // @Mutation(() => Message)
-  // async createMessageOneOne(
-  //   @CurrentUser() user: User,
-  //   @Args('createMessageInput') createMessageInput: CreateMessageInput,
-  // ) {
-  //   const newMessage = await this.messageService.createMessage(
-  //     user,
-  //     createMessageInput,
-  //   );
-
-  //   pubSub.publish('newMessage', {
-  //     newMessage,
-  //   });
-  //   return newMessage;
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => [Message])
+  async updateMessageOneOne(
+    @CurrentUser() user: User,
+    @Args('updateMessageInput') updateMessageInput: UpdateMessageInput,
+  ) {
+    const updatedMessage = await this.messageService.updateMessageOneOne(
+      user,
+      updateMessageInput,
+    );
+    return updatedMessage;
+  }
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Message)

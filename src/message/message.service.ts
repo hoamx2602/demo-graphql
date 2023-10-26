@@ -10,7 +10,12 @@ import { Model } from 'mongoose';
 import { AuthService } from 'src/common/auth/services/auth.service';
 
 import { CreateMessageInput } from './dto/input/create-message.input';
-import { AddNewMessageInput } from './dto';
+import {
+  AddNewMessageInput,
+  GetMessageGroupInput,
+  GetMessageOneOneInput,
+  UpdateMessageInput,
+} from './dto';
 import { AwsService } from 'src/common/aws/aws.service';
 
 @Injectable()
@@ -143,5 +148,108 @@ export class MessageService {
     } catch (error) {
       throw new Error('Upload failed!');
     }
+  }
+
+  async getAllMessageGroup(
+    user: User,
+    getMessageGroupInput: GetMessageGroupInput,
+  ) {
+    const { page, limit, groupId } = getMessageGroupInput;
+    const [isGroupExist, isGroupHasUser] = await Promise.all([
+      this.groupModel.findOne({
+        _id: groupId,
+      }),
+      this.groupMemberModel.findOne({
+        user_id: user._id,
+        group_id: groupId,
+      }),
+    ]);
+
+    if (!isGroupExist) {
+      throw new NotFoundException('This group isnt exist!');
+    }
+
+    if (!isGroupHasUser) {
+      throw new BadRequestException(
+        `You cannot read the message of a group which is dont belong to you!`,
+      );
+    }
+    const groupMessages = await this.messageModel
+      .find({
+        group_id: groupId,
+      })
+      .sort({ created_at: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const messageWithSender = await Promise.all(
+      groupMessages.map(async (message) => {
+        const sender = await this.userModel.findById(message.sender_id);
+        return {
+          ...message.toObject(),
+          sender,
+        };
+      }),
+    );
+
+    return messageWithSender;
+  }
+
+  async getMessagesOneOne(
+    user: User,
+    getMessageOneOneInput: GetMessageOneOneInput,
+  ) {
+    const { page, limit, friendId } = getMessageOneOneInput;
+
+    const isValidUser = await this.userModel.findOne({
+      _id: friendId,
+    });
+
+    if (!isValidUser) {
+      throw new NotFoundException('This friend isnt exist!');
+    }
+
+    const messages = await this.messageModel
+      .find({
+        group_id: null,
+        sender_id: user._id,
+        recipient_id: friendId,
+      })
+      .sort({ created_at: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const messageWithSender = await Promise.all(
+      messages.map(async (message) => {
+        const sender = await this.userModel.findById(message.sender_id);
+        return {
+          ...message.toObject(),
+          sender,
+        };
+      }),
+    );
+
+    return messageWithSender;
+  }
+
+  async updateMessageOneOne(
+    user: User,
+    updateMessageInput: UpdateMessageInput,
+  ) {
+    const { content, messageId } = updateMessageInput;
+
+    const updatedMessage = await this.messageModel.findOneAndUpdate(
+      {
+        _id: messageId,
+        sender_id: user._id,
+      },
+      {
+        $set: {
+          content,
+        },
+      },
+    );
+
+    return updatedMessage;
   }
 }

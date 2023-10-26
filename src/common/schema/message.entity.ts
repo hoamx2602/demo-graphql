@@ -2,6 +2,7 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { MESSAGE_TYPE, REPLY_TYPE } from 'src/common/constants';
+import { User } from './user.entity';
 
 @Schema({
   collection: 'messages',
@@ -35,6 +36,9 @@ export class Message {
   @Field(() => String, { description: 'Sender id' })
   sender_id: string;
 
+  @Field(() => User, { description: 'Sender information' })
+  sender: User;
+
   @Prop()
   @Field(() => String, {
     description: 'Receiver id. If chat in a group then recipient_id is null',
@@ -59,6 +63,10 @@ export class Message {
   @Prop({ type: 'number', default: () => Date.now() })
   @Field(() => Number)
   created_at: number;
+
+  @Prop({ type: 'boolean', default: false })
+  @Field(() => Boolean)
+  is_update: boolean;
 
   @Prop({ type: 'number', default: () => Date.now() })
   @Field(() => Number)
