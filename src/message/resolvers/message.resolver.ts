@@ -56,11 +56,11 @@ export class MessageResolver {
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => [Message])
-  async updateMessageOneOne(
+  async updateMessage(
     @CurrentUser() user: User,
     @Args('updateMessageInput') updateMessageInput: UpdateMessageInput,
   ) {
-    const updatedMessage = await this.messageService.updateMessageOneOne(
+    const updatedMessage = await this.messageService.updateMessage(
       user,
       updateMessageInput,
     );

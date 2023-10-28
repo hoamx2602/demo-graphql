@@ -232,10 +232,7 @@ export class MessageService {
     return messageWithSender;
   }
 
-  async updateMessageOneOne(
-    user: User,
-    updateMessageInput: UpdateMessageInput,
-  ) {
+  async updateMessage(user: User, updateMessageInput: UpdateMessageInput) {
     const { content, messageId } = updateMessageInput;
 
     const updatedMessage = await this.messageModel.findOneAndUpdate(
